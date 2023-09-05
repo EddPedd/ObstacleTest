@@ -7,11 +7,13 @@ public class SpawnerScript : MonoBehaviour
     //References to other objects and components
     private Transform spawnPosition;
     public GameObject obstaclePrefab;
+    public ObstacleManager oManager;
 
     //Variables
     private float timesSinceLastSpawn;
     [SerializeField]
     private float timeBeteweenSpawns;
+    private int spawnNumber;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +28,7 @@ public class SpawnerScript : MonoBehaviour
             Debug.LogError("Child object not found!");
         }
 
-        SpawnObstacle();
+        RandomObstacle();
     }
 
     // Update is called once per frame
@@ -36,12 +38,43 @@ public class SpawnerScript : MonoBehaviour
         if(timesSinceLastSpawn >= timeBeteweenSpawns)
         {
             timesSinceLastSpawn = 0;
-            SpawnObstacle();
+            RandomObstacle();
         }
     }
 
-    private void SpawnObstacle()
+    private void RandomObstacle(){
+        int randomColor = Random.Range(0,3);
+
+        if(randomColor == 0){
+            SpawnObstacle(oManager.GreenColorInstance);
+        }
+        else if(randomColor ==1)
+        {
+            SpawnObstacle(oManager.BlueColorInstance);
+        }
+        else if (randomColor ==2)
+        {
+            SpawnObstacle(oManager.RedColorInstance);
+        }
+
+        Debug.Log("randomColor = " + randomColor);
+    }
+
+    private void SpawnObstacle(ObstacleColor spawnColor)
     {
-        Instantiate(obstaclePrefab, spawnPosition.position, spawnPosition.rotation);        //This method creates a new Obstacle dad.
+        ObstacleScript obstacle;
+        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPosition.position , spawnPosition.rotation);
+
+        obstacle = obstacleObject.GetComponent<ObstacleScript>();
+
+        if(obstacle != null)
+        {
+            obstacle.obstacleColor = spawnColor;
+        }  
+        else{
+            Debug.LogError("obstacleObject is without obstacleScript!");
+        }
+        
+        //obstacle.obstacleColor = 
     }
 }
