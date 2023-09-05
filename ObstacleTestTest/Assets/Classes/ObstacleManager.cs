@@ -34,7 +34,6 @@ public class ObstacleManager : MonoBehaviour{
     }
 }
 
-
 public class ObstacleColor
 {
     public int bounces;
@@ -69,7 +68,6 @@ public class ObstacleSieze
 }
 
 public interface Bouncable{
-
     void SetShape(GameObject obstacleObject){
 
     }
@@ -97,7 +95,6 @@ public class CircleShape : ObstacleShape
 {
     public override void SetShape(GameObject obstacleObject){
         //Set circlesprite 
-        
         CircleCollider2D collider = obstacleObject.AddComponent<CircleCollider2D>();
     }
 
