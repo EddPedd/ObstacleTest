@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class ObstacleScript : MonoBehaviour
 {
+    //References
+    private SpriteRenderer spriteRenderer;
+    
     //Variables
     public ObstacleColor obstacleColor;         //ColorClass
+    public ObstacleSize obstacleSize; 
     
-    private SpriteRenderer spriteRenderer;
-
     [SerializeField]
     private float movementFloat;
     private Vector3 movement;
+    
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //Set movement variables    OBSOBS!! KOLLA HÄR PAPPA!
-        movementFloat = 0.01f;
+        
+        movementFloat = 0.01f;          //Set movement variables    OBSOBS!! KOLLA HÄR PAPPA!
         movement = new Vector3(0, -movementFloat, 0);
         
         //Set variables
@@ -29,6 +35,15 @@ public class ObstacleScript : MonoBehaviour
         }
         else{
             Debug.LogError("obstacle is without obstacleColor!");
+        }
+
+        if(obstacleSize != null)
+        {
+            Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
+            transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
+        }
+        else{
+            Debug.LogError("obstacle is without obstacleSize!");
         }
     }
 

@@ -43,24 +43,43 @@ public class SpawnerScript : MonoBehaviour
     }
 
     private void RandomObstacle(){
-        int randomColor = Random.Range(0,3);
+        ObstacleColor spawnColor = default ;      //Create
+        ObstacleSize spawnSize = default; 
 
-        if(randomColor == 0){
-            SpawnObstacle(oManager.GreenColorInstance);
+        int randomColor = Random.Range(0,3);            //Roll random int between 3 possible
+        int randomSize = Random.Range(0,3);
+
+        
+        if(randomColor == 0){                           //Set Color
+            spawnColor = oManager.GreenColorInstance;
         }
         else if(randomColor ==1)
         {
-            SpawnObstacle(oManager.BlueColorInstance);
+            spawnColor = oManager.BlueColorInstance;
         }
         else if (randomColor ==2)
         {
-            SpawnObstacle(oManager.RedColorInstance);
+            spawnColor = oManager.RedColorInstance;
         }
 
-        Debug.Log("randomColor = " + randomColor);
+        if(randomSize == 0){
+            spawnSize = oManager.SmallSizeInstance;
+        }
+        else if(randomSize ==1)
+        {
+            spawnSize = oManager.MediumSizeInstance;
+        }
+        else if (randomSize ==2)
+        {
+            spawnSize = oManager.LargeSizeInstance;
+        }
+
+        SpawnObstacle(spawnColor, spawnSize);
+        //Debug.Log("randomSize = " + randomSize);      Outdated error
+        //Debug.Log     
     }
 
-    private void SpawnObstacle(ObstacleColor spawnColor)
+    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize)
     {
         ObstacleScript obstacle;
         GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPosition.position , spawnPosition.rotation);
@@ -70,6 +89,7 @@ public class SpawnerScript : MonoBehaviour
         if(obstacle != null)
         {
             obstacle.obstacleColor = spawnColor;
+            obstacle.obstacleSize = spawnSize;
         }  
         else{
             Debug.LogError("obstacleObject is without obstacleScript!");
