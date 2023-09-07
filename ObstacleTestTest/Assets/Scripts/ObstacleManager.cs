@@ -41,15 +41,15 @@ public class ObstacleManager : MonoBehaviour{
     private float _largeScale;
     private static float largeScale;
 
-    [SerializeField]                        //Bounce time
-    private float _smallBounceTime;
-    private static float smallBounceTime;
+    [SerializeField]                        //Bounce time Modifiers
+    private float _smallBounceTimeModifier;
+    private static float smallBounceTimeModifier;
     [SerializeField]
-    private float _mediumBounceTime;
-    private static float mediumBounceTime;
+    private float _mediumBounceTimeModifier;
+    private static float mediumBounceTimeModifier;
     [SerializeField]
-    private float _largeBounceTime;
-    private static float largeBounceTime;
+    private float _largeBounceTimeModifier;
+    private static float largeBounceTimeModifier;
 
 
     //Create static instances of Color classes
@@ -66,15 +66,15 @@ public class ObstacleManager : MonoBehaviour{
         mediumScale = _mediumScale;                 //Scales
         largeScale = _largeScale;
 
-        smallBounceTime = _smallBounceTime;         //BounceTime
-        mediumBounceTime = _mediumBounceTime;
-        largeBounceTime = _largeBounceTime;
+        smallBounceTimeModifier = _smallBounceTimeModifier;         //BounceTime
+        mediumBounceTimeModifier = _mediumBounceTimeModifier;
+        largeBounceTimeModifier = _largeBounceTimeModifier;
 
         gravity = _gravity;
 
-        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTime, gravity);
-        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTime, gravity);
-        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTime, gravity);
+        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, gravity);
+        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, gravity);
+        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, gravity);
     }
 }
 
@@ -93,8 +93,9 @@ public class ObstacleColor
 public class ObstacleSize
 {
     public float scale;
-    public float bounceTime;
+    public float bounceTimeModifier;
     public AnimationCurve gravityCurve;
+
     //Add a SoundClass here and to play when bounceing
 
     //public void PlayBounceSound()             //OBS method for playing sound based on sieze
@@ -102,9 +103,9 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTime, AnimationCurve _gravityCurve){
+    public ObstacleSize (float _scale, float _bounceTimeModifier, AnimationCurve _gravityCurve){
         scale = _scale;
-        bounceTime = _bounceTime;
+        bounceTimeModifier = _bounceTimeModifier;
         gravityCurve = _gravityCurve;
     }
 }

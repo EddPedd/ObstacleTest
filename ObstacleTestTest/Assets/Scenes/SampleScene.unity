@@ -584,9 +584,9 @@ MonoBehaviour:
   _smallScale: 1
   _mediumScale: 3
   _largeScale: 6
-  _smallBounceTime: 0.7
-  _mediumBounceTime: 0.84
-  _largeBounceTime: 1.2
+  _smallBounceTimeModifier: 0.8
+  _mediumBounceTimeModifier: 1
+  _largeBounceTimeModifier: 1.2
 --- !u!4 &1772441160
 Transform:
   m_ObjectHideFlags: 0
