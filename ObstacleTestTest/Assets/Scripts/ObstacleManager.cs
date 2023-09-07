@@ -27,6 +27,10 @@ public class ObstacleManager : MonoBehaviour{
 
 
     //Size Variables
+    [SerializeField]
+    private AnimationCurve _gravity;
+    private static AnimationCurve gravity;
+
     [SerializeField]                        //Scale
     private float _smallScale;
     private static float smallScale;
@@ -47,6 +51,7 @@ public class ObstacleManager : MonoBehaviour{
     private float _largeBounceTime;
     private static float largeBounceTime;
 
+
     //Create static instances of Color classes
     private void Awake(){
         greenObstacleColor = _greenObstacleColor;   //Set variables for color classes
@@ -65,9 +70,11 @@ public class ObstacleManager : MonoBehaviour{
         mediumBounceTime = _mediumBounceTime;
         largeBounceTime = _largeBounceTime;
 
-        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTime);
-        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTime);
-        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTime);
+        gravity = _gravity;
+
+        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTime, gravity);
+        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTime, gravity);
+        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTime, gravity);
     }
 }
 
@@ -87,6 +94,7 @@ public class ObstacleSize
 {
     public float scale;
     public float bounceTime;
+    public AnimationCurve gravityCurve;
     //Add a SoundClass here and to play when bounceing
 
     //public void PlayBounceSound()             //OBS method for playing sound based on sieze
@@ -94,9 +102,10 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTime){
+    public ObstacleSize (float _scale, float _bounceTime, AnimationCurve _gravityCurve){
         scale = _scale;
         bounceTime = _bounceTime;
+        gravityCurve = _gravityCurve;
     }
 }
 
