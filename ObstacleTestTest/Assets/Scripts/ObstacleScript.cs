@@ -9,13 +9,12 @@ public class ObstacleScript : MonoBehaviour
     private Transform floor;
     
     //Variables
-    public ObstacleColor obstacleColor;         //ColorClass
+    public ObstacleColor obstacleColor;         //ObstacleClasses from ObstacleManager
     public ObstacleSize obstacleSize; 
     
-    [SerializeField]
+    [SerializeField]                            //Movement Variables
     private float movementFloat;
     private Vector3 movement;
-
     private Vector3 floorPosition;
     private Vector3 startPosition;
     private float timeSinceBounce;
@@ -23,12 +22,8 @@ public class ObstacleScript : MonoBehaviour
     private float bounceHeight;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-       // movementFloat = 0.01f;          //Set movement variables    OBSOBS!! KOLLA HÄR PAPPA!
-        //movement = new Vector3(0, -movementFloat, 0);
-        
         //Set References
         spriteRenderer = GetComponent<SpriteRenderer>();
         

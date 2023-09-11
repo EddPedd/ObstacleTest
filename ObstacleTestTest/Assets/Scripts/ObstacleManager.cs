@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour{
     
+    public static ObstacleManager Instance;     //single instance
+
     //Color classes
     public ObstacleColor GreenColorInstance {get; private set;}
     public ObstacleColor BlueColorInstance {get; private set;}
     public ObstacleColor RedColorInstance {get; private set;}
+
+    public ObstacleColor [] obstacleColors {get; private set;}  //ObstacleColor Array
 
     //Color variables
     [SerializeField]
@@ -25,6 +29,7 @@ public class ObstacleManager : MonoBehaviour{
     public ObstacleSize MediumSizeInstance {get; private set;}
     public ObstacleSize LargeSizeInstance {get; private set;}
 
+    public ObstacleSize [] obstacleSizes {get; private set;}        //ObstacleSize Array
 
     //Size Variables
     [SerializeField]
@@ -54,6 +59,17 @@ public class ObstacleManager : MonoBehaviour{
 
     //Create static instances of Color classes
     private void Awake(){
+
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            GameObject.Destroy(gameObject);
+            return;
+        }
+
         greenObstacleColor = _greenObstacleColor;   //Set variables for color classes
         blueObstacleColor = _blueObstacleColor;
         redObstacleColor = _redObstacleColor;
@@ -61,6 +77,9 @@ public class ObstacleManager : MonoBehaviour{
         GreenColorInstance = new ObstacleColor(0, greenObstacleColor);          //Create color classes
         BlueColorInstance = new ObstacleColor(1, blueObstacleColor);            //1 for one bounce
         RedColorInstance = new ObstacleColor(2, redObstacleColor);
+        
+        //Set ObstacleColor array
+        obstacleColors = new ObstacleColor [] {GreenColorInstance, BlueColorInstance, RedColorInstance};
 
         smallScale = _smallScale;                   //Set variables for Size classes
         mediumScale = _mediumScale;                 //Scales
@@ -75,6 +94,10 @@ public class ObstacleManager : MonoBehaviour{
         SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, gravity);
         MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, gravity);
         LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, gravity);
+
+        //Set ObstacleSize Array
+        obstacleSizes = new ObstacleSize [] {SmallSizeInstance, MediumSizeInstance, LargeSizeInstance};
+
     }
 }
 

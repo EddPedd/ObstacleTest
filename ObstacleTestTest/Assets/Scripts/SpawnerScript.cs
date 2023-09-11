@@ -23,7 +23,7 @@ public class SpawnerScript : MonoBehaviour
 
         for (int i=0; i< childCount; i++)
         {
-            spawnPoints[i] = transform.GetChild(i);
+            spawnPoints[i] = transform.GetChild(i);         //0 is top, 1 is left and 2 is right spawnPoint
         }
 
         RandomObstacle();
@@ -49,57 +49,29 @@ public class SpawnerScript : MonoBehaviour
         int randomSize = Random.Range(0,3);
         int randomSpawnPoint = Random.Range(0,3);
 
-        
-        if(randomColor == 0){                           //Set Color
-            spawnColor = oManager.GreenColorInstance;
-        }
-        else if(randomColor ==1)
-        {
-            spawnColor = oManager.BlueColorInstance;
-        }
-        else if (randomColor ==2)
-        {
-            spawnColor = oManager.RedColorInstance;
-        }
+        spawnColor = oManager.obstacleColors[randomColor];  //set spawn variables after the random numbers
+        spawnSize = oManager.obstacleSizes[randomSize];
+        spawnPoint = spawnPoints[randomSpawnPoint];
 
-        if(randomSize == 0){                            //Set Size
-            spawnSize = oManager.SmallSizeInstance;
-        }
-        else if(randomSize ==1)
-        {
-            spawnSize = oManager.MediumSizeInstance;
-        }
-        else if (randomSize ==2)
-        {
-            spawnSize = oManager.LargeSizeInstance;
-        }
-
-      //  if(randomSpawnPoint == 0)
-       // {
-       //     spawnPoint = spawnPositions[]
-       // }
-
-    //    SpawnObstacle(spawnColor, spawnSize);
+        SpawnObstacle(spawnColor, spawnSize, spawnPoint);
         //Debug.Log("randomSize = " + randomSize);      Outdated error
-        //Debug.Log     
+           
     }
 
-   // private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize)
- ////   {
+    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, Transform spawnPoint)
+    {
         ObstacleScript obstacle;
-      //  GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPosition.position , spawnPosition.rotation);
+        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPoint.position , spawnPoint.rotation);
 
-       // obstacle = obstacleObject.GetComponent<ObstacleScript>();
+        obstacle = obstacleObject.GetComponent<ObstacleScript>();
 
-        //if(obstacle != null)
-       // {
-          //  obstacle.obstacleColor = spawnColor;
-          //  obstacle.obstacleSize = spawnSize;
-       // }  
-        //else{
-         //  Debug.LogError("obstacleObject is without obstacleScript!");
-      //  }
-        
-        //obstacle.obstacleColor = 
-   //}
+        if(obstacle != null)
+        {
+            obstacle.obstacleColor = spawnColor;
+            obstacle.obstacleSize = spawnSize;
+        }  
+        else{
+           Debug.LogError("obstacleObject is without obstacleScript!");
+        }
+    }
 }
