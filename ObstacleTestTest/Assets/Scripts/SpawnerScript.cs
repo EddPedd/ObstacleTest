@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnerScript : MonoBehaviour
 {
     //References to other objects and components
-    private Transform spawnPosition;
+    private Transform [] spawnPoints;
     public GameObject obstaclePrefab;
     public ObstacleManager oManager;
 
@@ -18,14 +18,12 @@ public class SpawnerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Transform foundChild = transform.Find("Spawnpoint");
-        if(foundChild != null)
+        int childCount = transform.childCount;
+        spawnPoints = new Transform[childCount];
+
+        for (int i=0; i< childCount; i++)
         {
-            spawnPosition = foundChild;
-        }
-        else
-        {
-            Debug.LogError("Child object not found!");
+            spawnPoints[i] = transform.GetChild(i);
         }
 
         RandomObstacle();
@@ -42,12 +40,14 @@ public class SpawnerScript : MonoBehaviour
         }
     }
 
-    private void RandomObstacle(){
-        ObstacleColor spawnColor = default ;      //Create
+    private void RandomObstacle(){                  //OBS!!! next is to create arratys for all variants to make this smoother
+        ObstacleColor spawnColor = default ;      //Create variables
         ObstacleSize spawnSize = default; 
+        Transform spawnPoint = default;
 
-        int randomColor = Random.Range(0,3);            //Roll random int between 3 possible
+        int randomColor = Random.Range(0,3);            //Roll random int between 3 possible for random value
         int randomSize = Random.Range(0,3);
+        int randomSpawnPoint = Random.Range(0,3);
 
         
         if(randomColor == 0){                           //Set Color
@@ -62,7 +62,7 @@ public class SpawnerScript : MonoBehaviour
             spawnColor = oManager.RedColorInstance;
         }
 
-        if(randomSize == 0){
+        if(randomSize == 0){                            //Set Size
             spawnSize = oManager.SmallSizeInstance;
         }
         else if(randomSize ==1)
@@ -74,27 +74,32 @@ public class SpawnerScript : MonoBehaviour
             spawnSize = oManager.LargeSizeInstance;
         }
 
-        SpawnObstacle(spawnColor, spawnSize);
+      //  if(randomSpawnPoint == 0)
+       // {
+       //     spawnPoint = spawnPositions[]
+       // }
+
+    //    SpawnObstacle(spawnColor, spawnSize);
         //Debug.Log("randomSize = " + randomSize);      Outdated error
         //Debug.Log     
     }
 
-    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize)
-    {
+   // private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize)
+ ////   {
         ObstacleScript obstacle;
-        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPosition.position , spawnPosition.rotation);
+      //  GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPosition.position , spawnPosition.rotation);
 
-        obstacle = obstacleObject.GetComponent<ObstacleScript>();
+       // obstacle = obstacleObject.GetComponent<ObstacleScript>();
 
-        if(obstacle != null)
-        {
-            obstacle.obstacleColor = spawnColor;
-            obstacle.obstacleSize = spawnSize;
-        }  
-        else{
-            Debug.LogError("obstacleObject is without obstacleScript!");
-        }
+        //if(obstacle != null)
+       // {
+          //  obstacle.obstacleColor = spawnColor;
+          //  obstacle.obstacleSize = spawnSize;
+       // }  
+        //else{
+         //  Debug.LogError("obstacleObject is without obstacleScript!");
+      //  }
         
         //obstacle.obstacleColor = 
-    }
+   //}
 }

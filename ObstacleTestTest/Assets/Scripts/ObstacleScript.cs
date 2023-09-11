@@ -76,7 +76,7 @@ public class ObstacleScript : MonoBehaviour
         float totalBounceTime = Mathf.Sqrt((2*bounceHeight)/(10)) * obstacleSize.bounceTimeModifier;    //From time = square root (2*height/gravity)
         bouncePercent = timeSinceBounce / totalBounceTime;
 
-        if(bouncePercent <=1)       //Decide 
+        if(bouncePercent <=1)       //Decide bounce percent complete
         {
             float gravityMultiplier = obstacleSize.gravityCurve.Evaluate(bouncePercent);
             transform.position = Vector3.Lerp(startPosition, floorPosition, gravityMultiplier);
