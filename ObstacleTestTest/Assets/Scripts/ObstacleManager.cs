@@ -32,10 +32,6 @@ public class ObstacleManager : MonoBehaviour{
     public ObstacleSize [] obstacleSizes {get; private set;}        //ObstacleSize Array
 
     //Size Variables
-    [SerializeField]
-    private AnimationCurve _gravity;
-    private static AnimationCurve gravity;
-
     [SerializeField]                        //Scale
     private float _smallScale;
     private static float smallScale;
@@ -89,11 +85,9 @@ public class ObstacleManager : MonoBehaviour{
         mediumBounceTimeModifier = _mediumBounceTimeModifier;
         largeBounceTimeModifier = _largeBounceTimeModifier;
 
-        gravity = _gravity;
-
-        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, gravity);
-        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, gravity);
-        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, gravity);
+        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier);
+        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier);
+        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier);
 
         //Set ObstacleSize Array
         obstacleSizes = new ObstacleSize [] {SmallSizeInstance, MediumSizeInstance, LargeSizeInstance};
@@ -117,7 +111,6 @@ public class ObstacleSize
 {
     public float scale;
     public float bounceTimeModifier;
-    public AnimationCurve gravityCurve;
 
     //Add a SoundClass here and to play when bounceing
 
@@ -126,10 +119,10 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTimeModifier, AnimationCurve _gravityCurve){
+    public ObstacleSize (float _scale, float _bounceTimeModifier){
         scale = _scale;
         bounceTimeModifier = _bounceTimeModifier;
-        gravityCurve = _gravityCurve;
+
     }
 }
 

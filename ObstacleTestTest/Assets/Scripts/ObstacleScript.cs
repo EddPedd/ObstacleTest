@@ -7,16 +7,22 @@ public class ObstacleScript : MonoBehaviour
     //References
     private SpriteRenderer spriteRenderer;
     private Transform floor;
+    [SerializeField]
+    private AnimationCurve xCurve;
+    [SerializeField]
+    private AnimationCurve gravityCurve;
+    [SerializeField]
+    private AnimationCurve bounceCurve;
+
     
     //Variables
     public ObstacleColor obstacleColor;         //ObstacleClasses from ObstacleManager
     public ObstacleSize obstacleSize; 
-    
-    [SerializeField]                            //Movement Variables
-    private float movementFloat;
-    private Vector3 movement;
-    private Vector3 floorPosition;
+                                
+    //Movement Variables
     private Vector3 startPosition;
+    private Vector3 finalPosition;
+    private Vector3 currentPosition;
     private float timeSinceBounce;
     private float bouncePercent;
     private float bounceHeight;
@@ -51,18 +57,27 @@ public class ObstacleScript : MonoBehaviour
         
         GameObject floorObject = GameObject.FindWithTag("Floor");
         floor = floorObject.GetComponent<Transform>();
-        if(floor != null)
+
+        if(floor != null)       //Calculate where obstacle and floor meet and the height between the obstacle and the floor
         {            
-            floorPosition = new Vector3 (transform.position.x ,floor.position.y + (floor.localScale.y/2) + obstacleSize.scale/2, transform.position.z);
-            bounceHeight = startPosition.y - floorPosition.y;                           
+            finalPosition.y  = floor.position.y + (floor.localScale.y/2) + obstacleSize.scale/2;
+            bounceHeight = startPosition.y - finalPosition.y;                           
         }
         else if (floor = null)
         {
-            Debug.LogError("Can't define obstacleObjects floorPosition because floor Transform is missing!");
+            Debug.LogWarning("Can't define obstacleObjects finalPosition because floor Transform is missing!");
         }
 
-        Debug.Log("startPosition = " + startPosition + ", floorPosition = " + floorPosition + " and bounceHeight = " + bounceHeight);
-        Debug.Log(obstacleSize.gravityCurve);
+        if (transform.position.x > 9)       //9 for the x-value of right spawnPoint object
+        {
+            finalPosition.x = startPosition.x - (21 * (bounceHeight/9));      //9 for the height of the spawnPoint relative to the floor (the max height possible), 21 for the total lenght of th evisable floor.
+        }
+        else if( transform.position.x < -9)
+        {
+            finalPosition.x = startPosition.x + (21 * (bounceHeight/9));
+        }
+
+        Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition + " and bounceHeight = " + bounceHeight);
     }
 
     void Update(){
@@ -73,8 +88,13 @@ public class ObstacleScript : MonoBehaviour
 
         if(bouncePercent <=1)       //Decide bounce percent complete
         {
-            float gravityMultiplier = obstacleSize.gravityCurve.Evaluate(bouncePercent);
-            transform.position = Vector3.Lerp(startPosition, floorPosition, gravityMultiplier);
+            float gravityMultiplier = gravityCurve.Evaluate(bouncePercent);
+            currentPosition.y = Mathf.Lerp(startPosition.y, finalPosition.y, gravityMultiplier);
+
+            float xMultiplier = xCurve.Evaluate(bouncePercent);
+            currentPosition.x = Mathf.Lerp(startPosition.x, finalPosition.x, xMultiplier);
+
+            transform.position = currentPosition;
         }
         else
         {
@@ -89,7 +109,5 @@ public class ObstacleScript : MonoBehaviour
                 return;
             }
         }
-           
-       //transform.position += movement;     //OBSOBS HÄR SKER SJÄLVA RÖRELSEN PAPPA
     }
 }
