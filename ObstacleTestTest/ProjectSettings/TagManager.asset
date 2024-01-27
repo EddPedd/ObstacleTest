@@ -54,7 +54,7 @@ TagManager:
   - name: Obstacle
     uniqueID: 3408157187
     locked: 0
-  - name: New Layer 5
+  - name: Player
     uniqueID: 3417343373
     locked: 0
   - name: New Layer 6
