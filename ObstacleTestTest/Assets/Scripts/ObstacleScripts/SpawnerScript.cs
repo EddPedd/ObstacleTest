@@ -45,8 +45,8 @@ public class SpawnerScript : MonoBehaviour
         ObstacleSize spawnSize = default; 
         Transform spawnPoint = default;
 
-        int randomColor = Random.Range(0,3);            //Roll random int between 3 possible for random value
-        int randomSize = Random.Range(0,3);
+        int randomColor = Random.Range(0,1);            // OBS!!!!! ONLY GREEN COLOR DURING TESTING
+        int randomSize = Random.Range(0,3);            //Roll random int between 3 possible for random value
         int randomSpawnPoint = Random.Range(0,3);
 
         spawnColor = oManager.obstacleColors[randomColor];  //set spawn variables after the random numbers

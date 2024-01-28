@@ -51,6 +51,9 @@ TagManager:
   - name: Floor
     uniqueID: 643479519
     locked: 0
+  - name: Point
+    uniqueID: 2999873999
+    locked: 0
   - name: Obstacle
     uniqueID: 3408157187
     locked: 0

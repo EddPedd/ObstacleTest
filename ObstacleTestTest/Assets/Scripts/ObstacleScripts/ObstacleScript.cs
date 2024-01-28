@@ -36,20 +36,20 @@ public class ObstacleScript : MonoBehaviour
         //Set Obstacle classes variables
         if(obstacleColor != null){
             
-            Debug.Log("obstcleColor.bounces = " + obstacleColor.bounces);
+            //Debug.Log("obstcleColor.bounces = " + obstacleColor.bounces);
             spriteRenderer.color = obstacleColor.color;
         }
         else{
-            Debug.LogError("obstacle is without obstacleColor!");
+            //Debug.LogError("obstacle is without obstacleColor!");
         }
 
         if(obstacleSize != null)
         {
-            Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
+            //Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
             transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
         }
         else{
-            Debug.LogError("obstacle is without obstacleSize!");
+            //Debug.LogError("obstacle is without obstacleSize!");
         }
 
         //set movement variables
@@ -77,7 +77,7 @@ public class ObstacleScript : MonoBehaviour
             finalPosition.x = startPosition.x + (21 * (bounceHeight/9));
         }
 
-        Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition + " and bounceHeight = " + bounceHeight);
+       //Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition + " and bounceHeight = " + bounceHeight);
     }
 
     void Update(){
@@ -108,6 +108,15 @@ public class ObstacleScript : MonoBehaviour
                 GameObject.Destroy(gameObject);
                 return;
             }
+        }
+    }
+
+    void OnTriggerEnter2D (Collider2D collider)
+    {
+        if(collider.CompareTag("Player"))
+        {
+            HealthManager.Instance.ChangeHealth(-1);
+            Debug.Log(gameObject.name + " collided with Player");
         }
     }
 }
