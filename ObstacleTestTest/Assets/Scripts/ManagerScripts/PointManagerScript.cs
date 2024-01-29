@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PointManagerScript : MonoBehaviour
 {
@@ -22,7 +23,14 @@ public class PointManagerScript : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private TextMeshProUGUI multiplierText;
+
+    private bool gameHasStarted;
     private float currentPoints;
+    private int currentMultiplier;
 
     private void Awake()
     {
@@ -41,7 +49,36 @@ public class PointManagerScript : MonoBehaviour
     
     public void UpdatePoints(int points)
     {
-        currentPoints += points;
-        Debug.Log("Current points were updated. Current points is = " + currentPoints);
+        if(gameHasStarted)
+        {
+            currentPoints += points*currentMultiplier;
+            string pointString = currentPoints.ToString();
+            scoreText.text = pointString;
+            Debug.Log("Current points were updated. Current points is = " + currentPoints);
+        }
+    }
+
+    public void UpdateMultiplier(int multiplier)
+    {
+        if(gameHasStarted)
+        {
+            currentMultiplier += multiplier;
+            string multiplierString = currentMultiplier.ToString();
+            multiplierText.text = (multiplierString + "x");
+        }
+    }
+    
+    public void StartGame()
+    {
+        gameHasStarted = true;
+        currentPoints = 0;
+        currentMultiplier = 0;
+        UpdateMultiplier(1);
+        UpdatePoints(0);
+    }
+
+    public void GameOver()
+    {
+        gameHasStarted = false;
     }
 }

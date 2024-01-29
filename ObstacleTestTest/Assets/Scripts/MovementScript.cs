@@ -82,7 +82,6 @@ public class MovementScript : MonoBehaviour
 
     private void StandStill()
     {
-        Debug.Log("Plater is standing still");
         isMovingLeft = false;
         isMovingRight = false;
         rb.velocity = new Vector2 (0,0);

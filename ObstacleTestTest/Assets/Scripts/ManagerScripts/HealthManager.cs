@@ -9,7 +9,7 @@ public class HealthManager : MonoBehaviour
     public Image health1;
     public Image health2;
     
-    private int currentHealth; 
+    private int currentHealth = 0; 
     
     // Static reference to the instance of the class
     private static HealthManager _instance;
@@ -49,8 +49,7 @@ public class HealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = 1;
-        ChangeHealth(0);
+        ChangeHealth(1);
     }
 
     // Update is called once per frame
@@ -85,6 +84,7 @@ public class HealthManager : MonoBehaviour
         }
         else if (currentHealth == 0)     //Avsluta spelet
         {
+            GameManager.Instance.GameOver();
             health1.enabled=false;
             health2.enabled=false;
         }

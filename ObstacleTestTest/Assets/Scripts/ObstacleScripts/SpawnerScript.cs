@@ -10,6 +10,7 @@ public class SpawnerScript : MonoBehaviour
     public ObstacleManager oManager;
 
     //Variables
+    public bool gameHasStarted = false;
     private float timesSinceLastSpawn;
     [SerializeField]
     private float timeBeteweenSpawns;
@@ -25,14 +26,15 @@ public class SpawnerScript : MonoBehaviour
         {
             spawnPoints[i] = transform.GetChild(i);         //0 is top, 1 is left and 2 is right spawnPoint
         }
-
-        RandomObstacle();
     }
 
     // Update is called once per frame
     void Update()
     {
-        timesSinceLastSpawn += Time.deltaTime;
+        if(gameHasStarted)
+        {
+            timesSinceLastSpawn += Time.deltaTime;  
+        }
         if(timesSinceLastSpawn >= timeBeteweenSpawns)
         {
             timesSinceLastSpawn = 0;
@@ -73,5 +75,16 @@ public class SpawnerScript : MonoBehaviour
         else{
            Debug.LogError("obstacleObject is without obstacleScript!");
         }
+    }
+
+    public void StartGame()
+    {
+        gameHasStarted = true;
+    }
+
+    public void GameOver()
+    {
+        gameHasStarted = false;
+        timesSinceLastSpawn = 0;
     }
 }

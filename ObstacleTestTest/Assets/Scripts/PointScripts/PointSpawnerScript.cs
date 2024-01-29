@@ -7,21 +7,38 @@ public class PointSpawnerScript : MonoBehaviour
     [SerializeField]
     private Transform topSpawn;
 
-    [SerializeField]
-    private GameObject pointBallPrefab;
+    public bool gameHasStarted;
 
     [SerializeField]
-    private float timeBeteweenSpawns;
-    private float timesSinceLastSpawn;
+    private GameObject pointBallPrefab;
+    [SerializeField]
+    private float timeBeteweenPointSpawns;
+    private float timeSinceLastPoint;
+
+    [SerializeField]
+    private GameObject multiplierCubePrefab;
+    [SerializeField]
+    private float timeBeteweenMultiplierSpawns;
+    private float timeSincelastMultiplier;
 
     void Update()
     {
-        timesSinceLastSpawn += Time.deltaTime;
+        if(gameHasStarted)
+        {
+            timeSinceLastPoint += Time.deltaTime;
+            timeSincelastMultiplier += Time.deltaTime;
+        } 
 
-        if(timesSinceLastSpawn >= timeBeteweenSpawns)
+        if(timeSinceLastPoint >= timeBeteweenPointSpawns)
         {
             SpawnRandomPointBall();  
-            timesSinceLastSpawn = 0;  
+            timeSinceLastPoint = 0;  
+        }
+
+        if(timeSincelastMultiplier >= timeBeteweenMultiplierSpawns)
+        {
+            SpawnRandomMultiplierCube();  
+            timeSincelastMultiplier = 0;  
         }
     }
 
@@ -34,7 +51,25 @@ public class PointSpawnerScript : MonoBehaviour
         
         GameObject pointBall = Instantiate(pointBallPrefab, spawn, topSpawn.rotation);
 
-        Debug.Log("offSet is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
+        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
     
+    }
+
+    void SpawnRandomMultiplierCube()
+    {
+        float offSet = Random.Range(-10f, 11f);
+        float xOffSet = topSpawn.position.x + offSet;
+
+        Vector3 spawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
+        
+        GameObject pointBall = Instantiate(multiplierCubePrefab, spawn, topSpawn.rotation);
+
+        Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
+    
+    }
+    
+    public void StartGame()
+    {
+        gameHasStarted = true;
     }
 }
