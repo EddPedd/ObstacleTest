@@ -40,7 +40,7 @@ public class ObstacleScript : MonoBehaviour
             spriteRenderer.color = obstacleColor.color;
         }
         else{
-            //Debug.LogError("obstacle is without obstacleColor!");
+            Debug.LogError("obstacle is without obstacleColor!");
         }
 
         if(obstacleSize != null)
@@ -49,7 +49,7 @@ public class ObstacleScript : MonoBehaviour
             transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
         }
         else{
-            //Debug.LogError("obstacle is without obstacleSize!");
+            Debug.LogError("obstacle is without obstacleSize!");
         }
 
         //set movement variables
@@ -75,6 +75,10 @@ public class ObstacleScript : MonoBehaviour
         else if( transform.position.x < -9)
         {
             finalPosition.x = startPosition.x + (21 * (bounceHeight/9));
+        }
+        else
+        {
+            finalPosition.x = startPosition.x;
         }
 
        //Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition + " and bounceHeight = " + bounceHeight);

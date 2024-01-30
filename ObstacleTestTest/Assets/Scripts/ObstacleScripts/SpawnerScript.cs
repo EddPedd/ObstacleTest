@@ -55,16 +55,32 @@ public class SpawnerScript : MonoBehaviour
         spawnSize = oManager.obstacleSizes[randomSize];
         spawnPoint = spawnPoints[randomSpawnPoint];
 
-        SpawnObstacle(spawnColor, spawnSize, spawnPoint);
+        float randomOffSet = Random.Range(0, 101);
+
+        SpawnObstacle(spawnColor, spawnSize, spawnPoint, randomOffSet);
         //Debug.Log("randomSize = " + randomSize);      Outdated error
            
     }
 
-    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, Transform spawnPoint)
+    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, Transform spawnPoint, float offSet)
     {
         ObstacleScript obstacle;
-        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPoint.position , spawnPoint.rotation);
 
+        float finalOffSet = default;
+        Vector3 finalOffSetPosition = default;
+        
+        if(spawnPoint.position.x<-10f || spawnPoint.position.x> 10f) //if spawn is one of the side ones
+        {
+            finalOffSet = (offSet*8f)/100f;
+            finalOffSetPosition = new Vector3 (spawnPoint.position.x, spawnPoint.position.y + finalOffSet, spawnPoint.position.z);
+        }
+        else
+        {
+            finalOffSet = (offSet*14f)/100f;
+            finalOffSetPosition = new Vector3 (spawnPoint.position.x + finalOffSet, spawnPoint.position.y, spawnPoint.position.z);
+        }
+      
+        GameObject obstacleObject = Instantiate(obstaclePrefab, finalOffSetPosition , spawnPoint.rotation);
         obstacle = obstacleObject.GetComponent<ObstacleScript>();
 
         if(obstacle != null)
@@ -72,7 +88,8 @@ public class SpawnerScript : MonoBehaviour
             obstacle.obstacleColor = spawnColor;
             obstacle.obstacleSize = spawnSize;
         }  
-        else{
+        else
+        {
            Debug.LogError("obstacleObject is without obstacleScript!");
         }
     }

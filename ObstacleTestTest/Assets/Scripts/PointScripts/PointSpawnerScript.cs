@@ -44,7 +44,7 @@ public class PointSpawnerScript : MonoBehaviour
 
     void SpawnRandomPointBall()
     {
-        float offSet = Random.Range(-10f, 11f);
+        float offSet = Random.Range(0, 15);
         float xOffSet = topSpawn.position.x + offSet;
 
         Vector3 spawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
@@ -57,12 +57,12 @@ public class PointSpawnerScript : MonoBehaviour
 
     void SpawnRandomMultiplierCube()
     {
-        float offSet = Random.Range(-10f, 11f);
+        float offSet = Random.Range(0, 15);
         float xOffSet = topSpawn.position.x + offSet;
 
         Vector3 spawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
         
-        GameObject pointBall = Instantiate(multiplierCubePrefab, spawn, topSpawn.rotation);
+        GameObject multiplierCube = Instantiate(multiplierCubePrefab, spawn, topSpawn.rotation);
 
         Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
     

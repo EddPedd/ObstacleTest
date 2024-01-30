@@ -23,7 +23,7 @@ public class MultiplierCubeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        startPosition = transform.position;
         endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
     }
 
