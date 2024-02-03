@@ -31,6 +31,7 @@ public class PointBallScript : MonoBehaviour
     void Update()
     {
         life += Time.deltaTime;
+        
         if(life >= lifeTime) 
         {
             GameObject.Destroy(gameObject);

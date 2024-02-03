@@ -47,11 +47,11 @@ public class PointSpawnerScript : MonoBehaviour
         float offSet = Random.Range(0, 15);
         float xOffSet = topSpawn.position.x + offSet;
 
-        Vector3 spawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
+        Vector3 ballSpawn= new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
         
-        GameObject pointBall = Instantiate(pointBallPrefab, spawn, topSpawn.rotation);
+        Instantiate(pointBallPrefab, ballSpawn, topSpawn.rotation);
 
-        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
+        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + ballSpawn.x);
     
     }
 
@@ -60,11 +60,11 @@ public class PointSpawnerScript : MonoBehaviour
         float offSet = Random.Range(0, 15);
         float xOffSet = topSpawn.position.x + offSet;
 
-        Vector3 spawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
+        Vector3 cubeSpawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
         
-        GameObject multiplierCube = Instantiate(multiplierCubePrefab, spawn, topSpawn.rotation);
+        GameObject multiplierCube = Instantiate(multiplierCubePrefab, cubeSpawn, topSpawn.rotation);
 
-        Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + spawn.x);
+        Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + cubeSpawn.x);
     
     }
     

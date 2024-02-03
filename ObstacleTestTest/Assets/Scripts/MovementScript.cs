@@ -8,15 +8,21 @@ public class MovementScript : MonoBehaviour
     public Rigidbody2D rb;
 
     //variables
-    public bool isMovingLeft = false;
-    public bool isMovingRight = false;
-    public float movementSpeed;
+    private bool isMovingLeft = false;
+    private bool isMovingRight = false;
+    [SerializeField]
+    private float movementSpeed;
 
+    private float direction;
 
-    void Start()
-    {
-        
-    }
+    //Skip variables
+    public bool canSkip = false;
+    private bool isSkipping = false;
+    private float currentSkippingTime;
+    [SerializeField]
+    private float skipSpeed;
+    [SerializeField]
+    private float skipTime;
 
     void Update()
     {
@@ -38,6 +44,15 @@ public class MovementScript : MonoBehaviour
             CheckIfMoving();
         }
         
+if(Input.GetKeyDown(KeyCode.Space) && canSkip && (isMovingLeft || isMovingRight)) 
+        {
+            canSkip = false;
+            CheckDirection();
+            isMovingLeft = false;
+            isMovingRight = false;
+            currentSkippingTime = 0;
+            isSkipping = true;
+        }
 
         if(isMovingLeft)
         {
@@ -49,7 +64,22 @@ public class MovementScript : MonoBehaviour
             rb.velocity = new Vector2(movementSpeed, 0);
         }
 
-        if(!isMovingLeft && !isMovingRight)
+        if(isSkipping)
+        {
+            currentSkippingTime += Time.deltaTime;
+            if(currentSkippingTime < skipTime)
+            {
+                rb.velocity = new Vector2(skipSpeed*direction,0);
+            }
+            else
+            {
+                isSkipping = false;
+                CheckIfMoving();
+            }
+            
+        }
+        
+        if(!isMovingLeft && !isMovingRight && !isSkipping)
         {
            StandStill();
         }
@@ -77,6 +107,18 @@ public class MovementScript : MonoBehaviour
         else 
         {
             StandStill();
+        }
+    }
+
+    private void CheckDirection()
+    {
+        if(isMovingLeft)
+        {
+            direction= (-1f);
+        }
+        else
+        {
+            direction = 1;
         }
     }
 

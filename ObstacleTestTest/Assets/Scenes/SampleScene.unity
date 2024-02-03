@@ -1547,9 +1547,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1190778867}
-  isMovingLeft: 0
-  isMovingRight: 0
-  movementSpeed: 10
+  movementSpeed: 7.5
+  canSkip: 0
+  skipSpeed: 30
+  skipTime: 0.1
 --- !u!212 &1190778869
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1910,9 +1911,9 @@ MonoBehaviour:
   _smallScale: 1
   _mediumScale: 3
   _largeScale: 6
-  _smallBounceTimeModifier: 0.8
-  _mediumBounceTimeModifier: 1
-  _largeBounceTimeModifier: 1.2
+  _smallBounceTimeModifier: 1
+  _mediumBounceTimeModifier: 1.2
+  _largeBounceTimeModifier: 1.5
 --- !u!4 &1772441160
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,9 @@ public class MultiplierCubeScript : MonoBehaviour
 {
 [SerializeField]
     private AnimationCurve fallCurve;
-    
+    [SerializeField]
+    private MovementScript pMovement;
+
     [SerializeField]
     private float lifeTime;
     private float life = 0;
@@ -25,6 +27,8 @@ public class MultiplierCubeScript : MonoBehaviour
     {
         startPosition = transform.position;
         endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
+
+        pMovement = GameObject.FindWithTag("Player").GetComponent<MovementScript>();
     }
 
     // Update is called once per frame
@@ -34,14 +38,17 @@ public class MultiplierCubeScript : MonoBehaviour
         if(life >= lifeTime) 
         {
             GameObject.Destroy(gameObject);
-        }  
-        
-        fallPercent = life/fallTime;
+            return;
+        }
+        else
+        {
+            fallPercent = life/fallTime;
 
-        float fallMultiplier = fallCurve.Evaluate(fallPercent);
-        currentPosition.y = Mathf.Lerp(startPosition.y, endPosition.y, fallMultiplier);
+            float fallMultiplier = fallCurve.Evaluate(fallPercent);
+            currentPosition.y = Mathf.Lerp(startPosition.y, endPosition.y, fallMultiplier);
         
-        transform.position = currentPosition;
+            transform.position = currentPosition;
+        }  
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -49,6 +56,7 @@ public class MultiplierCubeScript : MonoBehaviour
         if(collider.CompareTag("Player"))
         {
             PointManagerScript.Instance.UpdateMultiplier(1);
+            pMovement.canSkip = true;
             GameObject.Destroy(gameObject);
             Debug.Log("MultiplierCube was picked up and sent message to PointManager to UpdateMultiplier");
         }
