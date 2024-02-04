@@ -46,12 +46,7 @@ public class MovementScript : MonoBehaviour
         
 if(Input.GetKeyDown(KeyCode.Space) && canSkip && (isMovingLeft || isMovingRight)) 
         {
-            canSkip = false;
-            CheckDirection();
-            isMovingLeft = false;
-            isMovingRight = false;
-            currentSkippingTime = 0;
-            isSkipping = true;
+            StartSkipping();
         }
 
         if(isMovingLeft)
@@ -110,6 +105,17 @@ if(Input.GetKeyDown(KeyCode.Space) && canSkip && (isMovingLeft || isMovingRight)
         }
     }
 
+    private void StartSkipping()
+    {
+        canSkip = false;
+        CheckDirection();
+        isMovingLeft = false;
+        isMovingRight = false;
+        currentSkippingTime = 0;
+        isSkipping = true;
+        PointManagerScript.Instance.UpdateMultiplier(1);    
+    }
+    
     private void CheckDirection()
     {
         if(isMovingLeft)

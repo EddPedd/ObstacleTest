@@ -24,6 +24,21 @@ public class ObstacleManager : MonoBehaviour{
     private Color _redObstacleColor;   
     private static Color redObstacleColor;
 
+    //Shape Classes
+    public ObstacleShape CircleShapeInstance {get; private set;}
+    public Triangle TriangleShapeInstance {get; private set;}
+    
+    public ObstacleShape [] obstacleShapes {get; private set;}  //ObstacleShape Array
+
+    //Shape variables
+    [SerializeField]
+    private Sprite _circleShapeSprite;
+    private static Sprite circleShapeSprite;
+    [SerializeField]
+    private Sprite _triangleShapeSprite;
+    private static Sprite triangleShapeSprite; 
+
+
     //Size classes
     public ObstacleSize SmallSizeInstance {get; private set;}
     public ObstacleSize MediumSizeInstance {get; private set;}
@@ -77,6 +92,15 @@ public class ObstacleManager : MonoBehaviour{
         //Set ObstacleColor array
         obstacleColors = new ObstacleColor [] {GreenColorInstance, BlueColorInstance, RedColorInstance};
 
+        circleShapeSprite = _circleShapeSprite;
+        triangleShapeSprite = _triangleShapeSprite;
+
+        CircleShapeInstance = new ObstacleShape (circleShapeSprite);
+        TriangleShapeInstance = new Triangle (triangleShapeSprite);
+
+        obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance};
+
+
         smallScale = _smallScale;                   //Set variables for Size classes
         mediumScale = _mediumScale;                 //Scales
         largeScale = _largeScale;
@@ -107,6 +131,53 @@ public class ObstacleColor
     }
 }
 
+public class ObstacleShape
+{
+    public Sprite shapeSprite;
+
+    public virtual void AddCollisionCollider(GameObject targetObject)
+    {
+        CircleCollider2D circleCollider = targetObject.AddComponent<CircleCollider2D>();
+
+        circleCollider.isTrigger = true;
+        Debug.Log("Added Circle collision collider");
+    }
+
+    public ObstacleShape (Sprite _sprite)
+    {
+        shapeSprite = _sprite;
+    }
+}
+
+public class Triangle : ObstacleShape
+{
+    public override void AddCollisionCollider(GameObject targetObject)
+    {
+        PolygonCollider2D triangleCollider = targetObject.AddComponent<PolygonCollider2D>();
+        triangleCollider.isTrigger = true;
+
+        Vector2 [] points = triangleCollider.GetPath(0);
+
+        Vector2 [] newPoints = new Vector2[3];
+        for(int i = 0; i<3; i++)
+        {
+            newPoints[i] = points[i];
+        }
+        
+        newPoints [0] = new Vector2 (0f, 0.55f);
+        newPoints [1] = new Vector2 (0.5f, -0.29f);
+        newPoints [2] = new Vector2 (-0.5f, -0.29f);
+
+        triangleCollider.SetPath(0, newPoints);
+        Debug.Log("Added triangle Collision collider");
+    }
+
+    public Triangle (Sprite _sprite) : base(_sprite)
+    {
+        shapeSprite = _sprite;
+    }
+}
+
 public class ObstacleSize
 {
     public float scale;
@@ -124,40 +195,4 @@ public class ObstacleSize
         bounceTimeModifier = _bounceTimeModifier;
 
     }
-}
-
-public interface Bouncable{
-    void SetShape(GameObject obstacleObject){
-
-    }
-    
-    void Bounce(Transform transform){
-
-    }
-}
-
-public class ObstacleShape : Bouncable
-{
-    public Sprite sprite;
-
-
-    public virtual void SetShape(GameObject obstacleObject){
-
-    }
-    
-    public virtual void Bounce(){
-        
-    }
-}
-
-public class CircleShape : ObstacleShape
-{
-    public override void SetShape(GameObject obstacleObject){
-        //Set circlesprite 
-        CircleCollider2D collider = obstacleObject.AddComponent<CircleCollider2D>();
-    }
-
-    public override void Bounce(){
-        //Specific circle bounce method
-    }   
 }

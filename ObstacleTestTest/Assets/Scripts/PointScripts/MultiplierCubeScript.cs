@@ -55,7 +55,6 @@ public class MultiplierCubeScript : MonoBehaviour
     {
         if(collider.CompareTag("Player"))
         {
-            PointManagerScript.Instance.UpdateMultiplier(1);
             pMovement.canSkip = true;
             GameObject.Destroy(gameObject);
             Debug.Log("MultiplierCube was picked up and sent message to PointManager to UpdateMultiplier");

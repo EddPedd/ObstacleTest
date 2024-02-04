@@ -17,7 +17,8 @@ public class ObstacleScript : MonoBehaviour
     
     //Variables
     public ObstacleColor obstacleColor;         //ObstacleClasses from ObstacleManager
-    public ObstacleSize obstacleSize; 
+    public ObstacleSize obstacleSize;
+    public ObstacleShape obstacleShape; 
                                 
     //Movement Variables
     private Vector3 startPosition;
@@ -50,6 +51,12 @@ public class ObstacleScript : MonoBehaviour
         }
         else{
             Debug.LogError("obstacle is without obstacleSize!");
+        }
+
+        if(obstacleShape != null)
+        {
+            spriteRenderer.sprite = obstacleShape.shapeSprite;
+            obstacleShape.AddCollisionCollider(gameObject);
         }
 
         //set movement variables

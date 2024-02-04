@@ -42,27 +42,26 @@ public class SpawnerScript : MonoBehaviour
         }
     }
 
-    private void RandomObstacle(){                  //OBS!!! next is to create arratys for all variants to make this smoother
-        ObstacleColor spawnColor = default ;      //Create variables
-        ObstacleSize spawnSize = default; 
-        Transform spawnPoint = default;
-
+    private void RandomObstacle()
+    {                                                //OBS!!! next is to create arratys for all variants to make this smoother
         int randomColor = Random.Range(0,1);            // OBS!!!!! ONLY GREEN COLOR DURING TESTING
         int randomSize = Random.Range(0,3);            //Roll random int between 3 possible for random value
+        int randomShape = Random.Range(0,2);
         int randomSpawnPoint = Random.Range(0,3);
 
-        spawnColor = oManager.obstacleColors[randomColor];  //set spawn variables after the random numbers
-        spawnSize = oManager.obstacleSizes[randomSize];
-        spawnPoint = spawnPoints[randomSpawnPoint];
+        ObstacleColor spawnColor = oManager.obstacleColors[randomColor];  //set spawn variables after the random numbers
+        ObstacleSize spawnSize = oManager.obstacleSizes[randomSize];
+        ObstacleShape spawnShape = oManager.obstacleShapes[randomShape];
+        Transform spawnPoint = spawnPoints[randomSpawnPoint];
 
         float randomOffSet = Random.Range(0, 101);
 
-        SpawnObstacle(spawnColor, spawnSize, spawnPoint, randomOffSet);
+        SpawnObstacle(spawnColor, spawnSize, spawnShape, spawnPoint, randomOffSet);
         //Debug.Log("randomSize = " + randomSize);      Outdated error
            
     }
 
-    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, Transform spawnPoint, float offSet)
+    private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, ObstacleShape spawnShape, Transform spawnPoint, float offSet)
     {
         ObstacleScript obstacle;
 
@@ -87,6 +86,7 @@ public class SpawnerScript : MonoBehaviour
         {
             obstacle.obstacleColor = spawnColor;
             obstacle.obstacleSize = spawnSize;
+            obstacle.obstacleShape = spawnShape;
         }  
         else
         {
