@@ -143,6 +143,12 @@ public class ObstacleShape
         Debug.Log("Added Circle collision collider");
     }
 
+    public virtual void CalculateBounce(float side)
+    {
+        side = (side*side);
+        Debug.Log("directionMultiplier after CalculatedBounce = " + side);
+    }
+
     public ObstacleShape (Sprite _sprite)
     {
         shapeSprite = _sprite;
@@ -170,6 +176,12 @@ public class Triangle : ObstacleShape
 
         triangleCollider.SetPath(0, newPoints);
         Debug.Log("Added triangle Collision collider");
+    }
+
+    public override void CalculateBounce(float side)
+    {
+        side = side;
+        Debug.Log("directionMultiplier after CalculatedBounce = " + side);
     }
 
     public Triangle (Sprite _sprite) : base(_sprite)

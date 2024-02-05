@@ -44,7 +44,7 @@ public class SpawnerScript : MonoBehaviour
 
     private void RandomObstacle()
     {                                                //OBS!!! next is to create arratys for all variants to make this smoother
-        int randomColor = Random.Range(0,1);            // OBS!!!!! ONLY GREEN COLOR DURING TESTING
+        int randomColor = Random.Range(0,3);            // OBS!!!!! ONLY GREEN COLOR DURING TESTING
         int randomSize = Random.Range(0,3);            //Roll random int between 3 possible for random value
         int randomShape = Random.Range(0,2);
         int randomSpawnPoint = Random.Range(0,3);
