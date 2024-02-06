@@ -8,38 +8,52 @@ public class ObstacleScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Transform floor;
     [SerializeField]
+    public Transform player {get; private set;} 
+    [SerializeField]
     private AnimationCurve xCurve;
     [SerializeField]
     private AnimationCurve riseCurve;
     [SerializeField]
     private AnimationCurve fallCurve;
 
-
-    
     //Variables
     public ObstacleColor obstacleColor;         //ObstacleClasses from ObstacleManager
     public ObstacleSize obstacleSize;
     public ObstacleShape obstacleShape; 
                                 
     //Movement Variables
-    private Vector3 startPosition;
+    [SerializeField]
+    public Vector3 startPosition {get; private set;} //Used to calculate bounce direction for circles
+    private Vector3 startBouncePosition;
     private Vector3 finalPosition;
     private Vector3 currentPosition;
     private float timeSinceBounce;
     private float bouncePercent;
-    private float bounceHeight;
     private int bounces;
     private float xDifference;
     private float maxHeight = 3;
     private float totalBounceTime;
+    private bool spawnedFromSide = true;
+    private bool hasBounced;
+    [SerializeField]
+    public float directionMultiplier;
 
     void Start()
     {
-        //Set References
+        //Set references
         spriteRenderer = GetComponent<SpriteRenderer>();
+        startPosition = transform.position;
+        startBouncePosition = startPosition;
+
+        GameObject floorObject = GameObject.FindWithTag("Floor");
+        floor = floorObject.GetComponent<Transform>();
+
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        player = playerObject.GetComponent<Transform>();
+
         
         //Set Obstacle classes variables
-        if(obstacleColor != null){
+        if(obstacleColor != null){      //Set Color
             
             //Debug.Log("obstcleColor.bounces = " + obstacleColor.bounces);
             spriteRenderer.color = obstacleColor.color;
@@ -49,7 +63,7 @@ public class ObstacleScript : MonoBehaviour
             Debug.LogError("obstacle is without obstacleColor!");
         }
 
-        if(obstacleSize != null)
+        if(obstacleSize != null)    //Set size
         {
             //Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
             transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
@@ -58,82 +72,98 @@ public class ObstacleScript : MonoBehaviour
             Debug.LogError("obstacle is without obstacleSize!");
         }
 
-        if(obstacleShape != null)
+        if(obstacleShape != null)   //Set shape
         {
             spriteRenderer.sprite = obstacleShape.shapeSprite;
             obstacleShape.AddCollisionCollider(gameObject);
         }
 
-        //set movement variables
-        startPosition = transform.position;
-        
-        GameObject floorObject = GameObject.FindWithTag("Floor");
-        floor = floorObject.GetComponent<Transform>();
-
+        //Calculate finalPosition
         if(floor != null)       //Calculate where obstacle and floor meet and the height between the obstacle and the floor
         {            
-            finalPosition.y  = floor.position.y + (floor.localScale.y/2) + obstacleSize.scale/2;
-            bounceHeight = startPosition.y - finalPosition.y;                           
+            finalPosition.y  = floor.position.y + (floor.localScale.y/2) + obstacleSize.scale/2;                        
         }
         else if (floor = null)
         {
             Debug.LogWarning("Can't define obstacleObjects finalPosition because floor Transform is missing!");
         }
 
+        //Check where the obstacle is spawned from and decide how to move in x
         if (transform.position.x > 9)       //9 for the x-value of right spawnPoint object
         {
-            finalPosition.x = startPosition.x - (21 * (bounceHeight/9));      //9 for the height of the spawnPoint relative to the floor (the max height possible), 21 for the total lenght of th evisable floor.
-            finalPosition.x = Mathf.Clamp(finalPosition.x, 0f, 7f);
+            finalPosition.x = Random.Range(0, 7);  
         }
         else if( transform.position.x < -9)
         {
-            finalPosition.x = startPosition.x + (21 * (bounceHeight/9));
-            finalPosition.x = Mathf.Clamp(finalPosition.x, -7f, 0f);
+            finalPosition.x = Random.Range(-7, 0);
         }
         else
         {
             finalPosition.x = startPosition.x;
+            spawnedFromSide = false;
         }
 
+        //Decide dependent variables
         xDifference = startPosition.x - finalPosition.x;
-       //Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition + " and bounceHeight = " + bounceHeight);
-
-        totalBounceTime = Mathf.Sqrt((2*bounceHeight)/(10)) * obstacleSize.bounceTimeModifier;    //From time = square root (2*height/gravity)
+        totalBounceTime = obstacleSize.bounceTimeModifier;    //From time = square root (2*height/gravity)
+        
+        Debug.Log("finalPosition = " + finalPosition + " and startPosition = " + startPosition);
     }
 
     void Update(){
-        //Calculate the time between bounces and 
+        //Bounce-math
         timeSinceBounce += Time.deltaTime;
-        
         bouncePercent = timeSinceBounce / totalBounceTime;
 
-        if(bouncePercent <0.5 )
+        //Decide how to move in y during bounce
+        if(bouncePercent <0.5 && spawnedFromSide) //Upward rise when spawned from side
         {
             float risePercent = bouncePercent*2;
             float gravityMultiplier = riseCurve.Evaluate(risePercent);
-            currentPosition.y = Mathf.Lerp(startPosition.y, maxHeight, gravityMultiplier);
+            currentPosition.y = Mathf.Lerp(startBouncePosition.y, maxHeight, gravityMultiplier);
         }
-        else if (bouncePercent >= 0.5f && 1f > bouncePercent )
+        else if (bouncePercent >= 0.5f && 1f > bouncePercent && spawnedFromSide)   //Downward fall after rise if spawned from side
+        {
+            float fallPercent = 2*(bouncePercent-0.5f);
+            float gravityMultiplier = fallCurve.Evaluate(fallPercent);
+            currentPosition.y = Mathf.Lerp(maxHeight, finalPosition.y, gravityMultiplier);
+        }
+
+        else if(bouncePercent < 1 && !spawnedFromSide && !hasBounced)  //y-movement if spawned from above and has not bounced yet
+        {
+            float gravityMultiplier = fallCurve.Evaluate(bouncePercent);
+            currentPosition.y = Mathf.Lerp(startBouncePosition.y, finalPosition.y, gravityMultiplier);
+        }
+
+        else if(bouncePercent < 0.5f && !spawnedFromSide && hasBounced)  //y-movement if spawned from above and has not bounced yet
+        {
+            float risePercent = bouncePercent*2;
+            float gravityMultiplier = riseCurve.Evaluate(risePercent);
+            currentPosition.y = Mathf.Lerp(startBouncePosition.y, maxHeight, gravityMultiplier);
+        }
+        else if(bouncePercent > 0.5f && bouncePercent < 1 && !spawnedFromSide && hasBounced)  //y-movement if spawned from above and has not bounced yet
         {
             float fallPercent = 2*(bouncePercent-0.5f);
             float gravityMultiplier = fallCurve.Evaluate(fallPercent);
             currentPosition.y = Mathf.Lerp(maxHeight, finalPosition.y, gravityMultiplier);
         }
         
+        //decide how to move in x during bounce
         if(bouncePercent < 1)       //Decide bounce percent complete
         {
             float xMultiplier = xCurve.Evaluate(bouncePercent);
-            currentPosition.x = Mathf.Lerp(startPosition.x, finalPosition.x, xMultiplier);
+            currentPosition.x = Mathf.Lerp(startBouncePosition.x, finalPosition.x, xMultiplier);
 
+            //Update position
             transform.position = currentPosition;
         }
+
+        //What to do when the bounce is complete
         else
         {
-            if(bounces >=1)
+            if(bounces >=1) //What to do if bounce again
             {
-                Transform player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-                
-                float directionMultiplier = -1f;
+                directionMultiplier = -1f;
 
                 if(transform.position.x < player.position.x)
                 {
@@ -142,20 +172,24 @@ public class ObstacleScript : MonoBehaviour
 
                 Debug.Log("directionMultiplier before Calculated bounce = " + directionMultiplier);
 
-                obstacleShape.CalculateBounce(directionMultiplier);
+                //Decide x-direction depending on shape
+                obstacleShape.CalculateBounce(directionMultiplier, this);
 
                 Debug.Log("final directionMultiplier = " + directionMultiplier );
                 
-                //reset positions for bounce-calculations
-                startPosition = transform.position;
+                //Decide new positions for bounce-calculations
+                startBouncePosition = transform.position;
                 maxHeight -= 2.5f;
-                finalPosition.x += xDifference*directionMultiplier/2;
+                finalPosition.x += directionMultiplier*Mathf.Abs(xDifference)/1.5f;
 
-                bounces -= 1 ;
+                bounces -= 1;
+                hasBounced = true;
+
+                //Reset bounce
                 timeSinceBounce = 0;
-                return;//Bounce
+                return;
             }
-            else
+            else    //What to do if no more bounce
             {
                 //Pop
                 GameObject.Destroy(gameObject);
@@ -164,8 +198,10 @@ public class ObstacleScript : MonoBehaviour
         }
     }
 
+    
     void OnTriggerEnter2D (Collider2D collider)
     {
+        //Collision with player
         if(collider.CompareTag("Player"))
         {
             HealthManager.Instance.ChangeHealth(-1);

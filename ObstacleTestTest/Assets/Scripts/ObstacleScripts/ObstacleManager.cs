@@ -143,10 +143,14 @@ public class ObstacleShape
         Debug.Log("Added Circle collision collider");
     }
 
-    public virtual void CalculateBounce(float side)
+    public virtual void CalculateBounce(float side, ObstacleScript obstacle)
     {
-        side = (side*side);
-        Debug.Log("directionMultiplier after CalculatedBounce = " + side);
+        obstacle.directionMultiplier = -1f;
+
+        if(obstacle.transform.position.x > obstacle.startPosition.x)
+        {
+            obstacle.directionMultiplier = 1f;
+        }
     }
 
     public ObstacleShape (Sprite _sprite)
@@ -178,10 +182,15 @@ public class Triangle : ObstacleShape
         Debug.Log("Added triangle Collision collider");
     }
 
-    public override void CalculateBounce(float side)
+    //Method for deciding which direction in x to bounce in.
+    public override void CalculateBounce(float side, ObstacleScript obstacle)
     {
-        side = side;
-        Debug.Log("directionMultiplier after CalculatedBounce = " + side);
+        obstacle.directionMultiplier = -1f;
+
+        if(obstacle.transform.position.x < obstacle.player.position.x)
+        {
+            obstacle.directionMultiplier = 1f;
+        }
     }
 
     public Triangle (Sprite _sprite) : base(_sprite)

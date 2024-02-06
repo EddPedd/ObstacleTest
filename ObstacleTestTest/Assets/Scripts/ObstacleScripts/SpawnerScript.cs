@@ -65,21 +65,7 @@ public class SpawnerScript : MonoBehaviour
     {
         ObstacleScript obstacle;
 
-        float finalOffSet = default;
-        Vector3 finalOffSetPosition = default;
-        
-        if(spawnPoint.position.x<-10f || spawnPoint.position.x> 10f) //if spawn is one of the side ones
-        {
-            finalOffSet = (offSet*8f)/100f;
-            finalOffSetPosition = new Vector3 (spawnPoint.position.x, spawnPoint.position.y + finalOffSet, spawnPoint.position.z);
-        }
-        else
-        {
-            finalOffSet = (offSet*14f)/100f;
-            finalOffSetPosition = new Vector3 (spawnPoint.position.x + finalOffSet, spawnPoint.position.y, spawnPoint.position.z);
-        }
-      
-        GameObject obstacleObject = Instantiate(obstaclePrefab, finalOffSetPosition , spawnPoint.rotation);
+        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPoint.position , spawnPoint.rotation);
         obstacle = obstacleObject.GetComponent<ObstacleScript>();
 
         if(obstacle != null)
