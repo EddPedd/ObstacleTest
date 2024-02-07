@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
         pointSpawner.StartGame();
 
         PointManagerScript.Instance.StartGame();
+
+        HealthManager.Instance.SetHealth(1);
     }
 
     public void GameOver()

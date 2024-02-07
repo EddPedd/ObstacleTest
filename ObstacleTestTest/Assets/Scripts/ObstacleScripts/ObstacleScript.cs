@@ -30,7 +30,7 @@ public class ObstacleScript : MonoBehaviour
     private float timeSinceBounce;
     private float bouncePercent;
     private int bounces;
-    private float xDifference;
+    public float xDifference;
     private float maxHeight = 3;
     private float totalBounceTime;
     private bool spawnedFromSide = true;
@@ -179,7 +179,7 @@ public class ObstacleScript : MonoBehaviour
                 
                 //Decide new positions for bounce-calculations
                 startBouncePosition = transform.position;
-                maxHeight -= 2.5f;
+                maxHeight = obstacleSize.bounceHeight;
                 finalPosition.x += directionMultiplier*Mathf.Abs(xDifference)/1.5f;
 
                 bounces -= 1;

@@ -46,7 +46,7 @@ public class SpawnerScript : MonoBehaviour
     {                                                //OBS!!! next is to create arratys for all variants to make this smoother
         int randomColor = Random.Range(0,3);            // OBS!!!!! ONLY GREEN COLOR DURING TESTING
         int randomSize = Random.Range(0,3);            //Roll random int between 3 possible for random value
-        int randomShape = Random.Range(0,2);
+        int randomShape = Random.Range(0,1);
         int randomSpawnPoint = Random.Range(0,3);
 
         ObstacleColor spawnColor = oManager.obstacleColors[randomColor];  //set spawn variables after the random numbers
@@ -64,10 +64,19 @@ public class SpawnerScript : MonoBehaviour
     private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, ObstacleShape spawnShape, Transform spawnPoint, float offSet)
     {
         ObstacleScript obstacle;
+        GameObject obstacleObject;
 
-        GameObject obstacleObject = Instantiate(obstaclePrefab, spawnPoint.position , spawnPoint.rotation);
+        if(spawnPoint.position.x > 0 || spawnPoint.position.x < -8)
+        {
+            obstacleObject = Instantiate(obstaclePrefab, spawnPoint.position , spawnPoint.rotation);
+        }
+        else
+        {
+            Vector3 finalSpawnPosition = new Vector3(spawnPoint.position.x + (offSet*14/100), spawnPoint.position.y, spawnPoint.position.z);
+            obstacleObject = Instantiate(obstaclePrefab, finalSpawnPosition , spawnPoint.rotation);
+        }
+
         obstacle = obstacleObject.GetComponent<ObstacleScript>();
-
         if(obstacle != null)
         {
             obstacle.obstacleColor = spawnColor;

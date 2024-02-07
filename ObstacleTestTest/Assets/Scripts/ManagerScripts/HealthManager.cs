@@ -91,4 +91,31 @@ public class HealthManager : MonoBehaviour
 
         Debug.Log("Player Health is equal to " + currentHealth);
     }
+
+    public void SetHealth(int health)
+    {
+        //Calculate new health
+        currentHealth = health;
+        currentHealth = Mathf.Clamp(currentHealth, 0, 2);
+
+        //Change health UI
+        if(currentHealth == 2)
+        {
+            health1.enabled=true;
+            health2.enabled=true;
+        }
+        else if(currentHealth == 1)     
+        {
+            health1.enabled=true;
+            health2.enabled=false;
+        }
+        else if (currentHealth == 0)     //Avsluta spelet
+        {
+            GameManager.Instance.GameOver();
+            health1.enabled=false;
+            health2.enabled=false;
+        }
+
+        Debug.Log("Player Health is equal to " + currentHealth); 
+    }
 }

@@ -31,13 +31,16 @@ public class ObstacleManager : MonoBehaviour{
     public ObstacleShape [] obstacleShapes {get; private set;}  //ObstacleShape Array
 
     //Shape variables
-    [SerializeField]
+    [SerializeField]                            //Shape sprites
     private Sprite _circleShapeSprite;
     private static Sprite circleShapeSprite;
     [SerializeField]
     private Sprite _triangleShapeSprite;
     private static Sprite triangleShapeSprite; 
 
+    [SerializeField]
+    private float _triangleBounceDistance;
+    private static float triangleBounceDistance;
 
     //Size classes
     public ObstacleSize SmallSizeInstance {get; private set;}
@@ -67,6 +70,15 @@ public class ObstacleManager : MonoBehaviour{
     private float _largeBounceTimeModifier;
     private static float largeBounceTimeModifier;
 
+    [SerializeField]                    //bounce Height
+    private float _smallBounceHeight;
+    private static float smallBounceHeight;
+    [SerializeField]                    
+    private float _mediumBounceHeight;
+    private static float mediumBounceHeight;    
+    [SerializeField]                    
+    private float _largeBounceHeight;
+    private static float largeBounceHeight;
 
     //Create static instances of Color classes
     private void Awake(){
@@ -92,26 +104,33 @@ public class ObstacleManager : MonoBehaviour{
         //Set ObstacleColor array
         obstacleColors = new ObstacleColor [] {GreenColorInstance, BlueColorInstance, RedColorInstance};
 
+        //Set variabes for Shapes
         circleShapeSprite = _circleShapeSprite;
         triangleShapeSprite = _triangleShapeSprite;
 
+        triangleBounceDistance = _triangleBounceDistance;
+
         CircleShapeInstance = new ObstacleShape (circleShapeSprite);
-        TriangleShapeInstance = new Triangle (triangleShapeSprite);
+        TriangleShapeInstance = new Triangle (triangleShapeSprite, triangleBounceDistance);
 
-        obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance};
+        obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance};     //array for shapes
 
-
-        smallScale = _smallScale;                   //Set variables for Size classes
-        mediumScale = _mediumScale;                 //Scales
+        //Set variables for Size classes
+        smallScale = _smallScale;               //Scales    
+        mediumScale = _mediumScale;                 
         largeScale = _largeScale;
 
         smallBounceTimeModifier = _smallBounceTimeModifier;         //BounceTime
         mediumBounceTimeModifier = _mediumBounceTimeModifier;
         largeBounceTimeModifier = _largeBounceTimeModifier;
 
-        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier);
-        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier);
-        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier);
+        smallBounceHeight = _smallBounceHeight;
+        mediumBounceHeight = _mediumBounceHeight;
+        largeBounceHeight = _largeBounceHeight;
+
+        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, smallBounceHeight);
+        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, mediumBounceHeight);
+        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, largeBounceHeight);
 
         //Set ObstacleSize Array
         obstacleSizes = new ObstacleSize [] {SmallSizeInstance, MediumSizeInstance, LargeSizeInstance};
@@ -134,6 +153,7 @@ public class ObstacleColor
 public class ObstacleShape
 {
     public Sprite shapeSprite;
+    public float bounceDistance;
 
     public virtual void AddCollisionCollider(GameObject targetObject)
     {
@@ -191,11 +211,14 @@ public class Triangle : ObstacleShape
         {
             obstacle.directionMultiplier = 1f;
         }
+
+        obstacle.xDifference = bounceDistance;
     }
 
-    public Triangle (Sprite _sprite) : base(_sprite)
+    public Triangle (Sprite _sprite, float _bounceDistance) : base(_sprite)
     {
         shapeSprite = _sprite;
+        bounceDistance = _bounceDistance;
     }
 }
 
@@ -203,6 +226,7 @@ public class ObstacleSize
 {
     public float scale;
     public float bounceTimeModifier;
+    public float bounceHeight;
 
     //Add a SoundClass here and to play when bounceing
 
@@ -211,9 +235,10 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTimeModifier){
+    public ObstacleSize (float _scale, float _bounceTimeModifier, float _bounceHeight){
         scale = _scale;
         bounceTimeModifier = _bounceTimeModifier;
+        bounceHeight = _bounceHeight;
 
     }
 }

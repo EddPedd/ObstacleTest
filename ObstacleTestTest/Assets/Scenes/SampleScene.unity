@@ -1910,12 +1910,16 @@ MonoBehaviour:
   _redObstacleColor: {r: 1, g: 0, b: 0, a: 1}
   _circleShapeSprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   _triangleShapeSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  _triangleBounceDistance: 10
   _smallScale: 1
   _mediumScale: 3
   _largeScale: 5
   _smallBounceTimeModifier: 1.2
   _mediumBounceTimeModifier: 1.5
   _largeBounceTimeModifier: 1.5
+  _smallBounceHeight: 0
+  _mediumBounceHeight: 1
+  _largeBounceHeight: 3
 --- !u!4 &1772441160
 Transform:
   m_ObjectHideFlags: 0
