@@ -51,7 +51,7 @@ public class PointSpawnerScript : MonoBehaviour
         
         Instantiate(pointBallPrefab, ballSpawn, topSpawn.rotation);
 
-        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + ballSpawn.x);
+        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and ballSpawn = " + ballSpawn);
     
     }
 
@@ -63,6 +63,9 @@ public class PointSpawnerScript : MonoBehaviour
         Vector3 cubeSpawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
         
         GameObject multiplierCube = Instantiate(multiplierCubePrefab, cubeSpawn, topSpawn.rotation);
+
+        MultiplierCubeScript multiplierCubeScript= multiplierCube.GetComponent<MultiplierCubeScript>();
+        multiplierCubeScript.SetStartAndEndPositions(cubeSpawn);
 
         Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + cubeSpawn.x);
     

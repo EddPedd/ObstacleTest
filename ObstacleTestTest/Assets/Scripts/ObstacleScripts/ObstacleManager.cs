@@ -41,6 +41,8 @@ public class ObstacleManager : MonoBehaviour{
     [SerializeField]
     private float _triangleBounceDistance;
     private static float triangleBounceDistance;
+    private static float triangleScaleMultiplier = 0.6f;
+
 
     //Size classes
     public ObstacleSize SmallSizeInstance {get; private set;}
@@ -111,7 +113,7 @@ public class ObstacleManager : MonoBehaviour{
         triangleBounceDistance = _triangleBounceDistance;
 
         CircleShapeInstance = new ObstacleShape (circleShapeSprite);
-        TriangleShapeInstance = new Triangle (triangleShapeSprite, triangleBounceDistance);
+        TriangleShapeInstance = new Triangle (triangleShapeSprite, triangleBounceDistance, triangleScaleMultiplier);
 
         obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance};     //array for shapes
 
@@ -154,6 +156,7 @@ public class ObstacleShape
 {
     public Sprite shapeSprite;
     public float bounceDistance;
+    public float scaleMultiplier = 1f;
 
     public virtual void AddCollisionCollider(GameObject targetObject)
     {
@@ -215,10 +218,11 @@ public class Triangle : ObstacleShape
         obstacle.xDifference = bounceDistance;
     }
 
-    public Triangle (Sprite _sprite, float _bounceDistance) : base(_sprite)
+    public Triangle (Sprite _sprite, float _bounceDistance, float _scaleMultiplier) : base(_sprite)
     {
         shapeSprite = _sprite;
         bounceDistance = _bounceDistance;
+        scaleMultiplier = _scaleMultiplier;
     }
 }
 

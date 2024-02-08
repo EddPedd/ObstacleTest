@@ -20,14 +20,12 @@ public class PointBallScript : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 endPosition;
     
-    // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
-        endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
+        endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);    //4.5 from half the scale of the floor but I cant be bothered to reference it so I just write it out
     }
 
-    // Update is called once per frame
     void Update()
     {
         life += Time.deltaTime;

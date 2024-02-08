@@ -25,9 +25,6 @@ public class MultiplierCubeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPosition = transform.position;
-        endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
-
         pMovement = GameObject.FindWithTag("Player").GetComponent<MovementScript>();
     }
 
@@ -60,4 +57,12 @@ public class MultiplierCubeScript : MonoBehaviour
             Debug.Log("MultiplierCube was picked up and sent message to PointManager to UpdateMultiplier");
         }
     }
+
+    public void SetStartAndEndPositions(Vector3 _startPosition)
+    {
+        startPosition = _startPosition;
+        endPosition = new Vector3 (startPosition.x, (transform.localScale.x/2f)-4.5f, startPosition.z);
+    }
+
+
 }

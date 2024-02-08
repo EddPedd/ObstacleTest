@@ -37,6 +37,8 @@ public class ObstacleScript : MonoBehaviour
     private bool hasBounced;
     [SerializeField]
     public float directionMultiplier;
+    [SerializeField]
+    public float scaleMultiplier;
 
     void Start()
     {
@@ -58,35 +60,29 @@ public class ObstacleScript : MonoBehaviour
             //Debug.Log("obstcleColor.bounces = " + obstacleColor.bounces);
             spriteRenderer.color = obstacleColor.color;
             bounces = obstacleColor.bounces;
-        }
-        else{
-            Debug.LogError("obstacle is without obstacleColor!");
-        }
+        }else{ Debug.LogError("obstacle is without obstacleColor!"); }
 
         if(obstacleSize != null)    //Set size
         {
             //Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
             transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
-        }
-        else{
-            Debug.LogError("obstacle is without obstacleSize!");
-        }
+        } else{ Debug.LogError("obstacle is without obstacleSize!");}
 
         if(obstacleShape != null)   //Set shape
         {
             spriteRenderer.sprite = obstacleShape.shapeSprite;
             obstacleShape.AddCollisionCollider(gameObject);
-        }
+            scaleMultiplier = obstacleShape.scaleMultiplier;
+        }else{ Debug.LogError("obstacle is without obstacleShape!");}
 
         //Calculate finalPosition
         if(floor != null)       //Calculate where obstacle and floor meet and the height between the obstacle and the floor
         {            
-            finalPosition.y  = floor.position.y + (floor.localScale.y/2) + obstacleSize.scale/2;                        
+            finalPosition.y  = floor.position.y + (floor.localScale.y/2) + (obstacleSize.scale*scaleMultiplier)/2;      
+            Debug.Log("finalPosition.y = " + finalPosition.y + " and scaleMultiplier*obstacleSize.scale = " + scaleMultiplier*obstacleSize.scale + 
+            " and floor.position.y + floor.localScale.y/2 = " + (floor.position.y + (floor.localScale.y/2)));                  
         }
-        else if (floor = null)
-        {
-            Debug.LogWarning("Can't define obstacleObjects finalPosition because floor Transform is missing!");
-        }
+        else if (floor = null){Debug.LogWarning("Can't define obstacleObjects finalPosition because floor Transform is missing!");}
 
         //Check where the obstacle is spawned from and decide how to move in x
         if (transform.position.x > 9)       //9 for the x-value of right spawnPoint object
