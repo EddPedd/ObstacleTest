@@ -82,6 +82,10 @@ public class ObstacleManager : MonoBehaviour{
     private float _largeBounceHeight;
     private static float largeBounceHeight;
 
+    private static int smallSpriteLayer = 2;
+    private static int mediumSpriteLayer = 1;
+    private static int largeSpriteLayer = 0;
+
     //Create static instances of Color classes
     private void Awake(){
 
@@ -130,9 +134,9 @@ public class ObstacleManager : MonoBehaviour{
         mediumBounceHeight = _mediumBounceHeight;
         largeBounceHeight = _largeBounceHeight;
 
-        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, smallBounceHeight);
-        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, mediumBounceHeight);
-        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, largeBounceHeight);
+        SmallSizeInstance = new ObstacleSize (smallScale, smallBounceTimeModifier, smallBounceHeight, smallSpriteLayer);
+        MediumSizeInstance = new ObstacleSize (mediumScale, mediumBounceTimeModifier, mediumBounceHeight, mediumSpriteLayer);
+        LargeSizeInstance = new ObstacleSize (largeScale, largeBounceTimeModifier, largeBounceHeight, largeSpriteLayer);
 
         //Set ObstacleSize Array
         obstacleSizes = new ObstacleSize [] {SmallSizeInstance, MediumSizeInstance, LargeSizeInstance};
@@ -231,6 +235,7 @@ public class ObstacleSize
     public float scale;
     public float bounceTimeModifier;
     public float bounceHeight;
+    public int spriteLayer;
 
     //Add a SoundClass here and to play when bounceing
 
@@ -239,10 +244,11 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTimeModifier, float _bounceHeight){
+    public ObstacleSize (float _scale, float _bounceTimeModifier, float _bounceHeight, int _sprietLayer){
         scale = _scale;
         bounceTimeModifier = _bounceTimeModifier;
         bounceHeight = _bounceHeight;
+        spriteLayer = _sprietLayer;
 
     }
 }

@@ -52,7 +52,7 @@ public class PointBallScript : MonoBehaviour
         }
     }
 
-    SetStartAndEndPositions()
+    void SetStartAndEndPositions()
     {
         startPosition = transform.position;
         currentPosition = startPosition;

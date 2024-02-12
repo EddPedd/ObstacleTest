@@ -66,6 +66,7 @@ public class ObstacleScript : MonoBehaviour
         {
             //Debug.Log("obstacleSize.scale = " + obstacleSize.scale);
             transform.localScale = new Vector3 (obstacleSize.scale, obstacleSize.scale, transform.localScale.z);
+            spriteRenderer.sortingOrder = obstacleSize.spriteLayer;
         } else{ Debug.LogError("obstacle is without obstacleSize!");}
 
         if(obstacleShape != null)   //Set shape

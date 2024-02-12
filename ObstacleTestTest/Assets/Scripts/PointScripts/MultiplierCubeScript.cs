@@ -61,11 +61,9 @@ public class MultiplierCubeScript : MonoBehaviour
 
     public void SetStartAndEndPositions()
     {
-
         startPosition = transform.position;
         currentPosition = transform.position;
         endPosition = new Vector3 (transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
-        Debug.Log("offSet = " + offSet + "and startPosition = " + startPosition);
     }
 
 
