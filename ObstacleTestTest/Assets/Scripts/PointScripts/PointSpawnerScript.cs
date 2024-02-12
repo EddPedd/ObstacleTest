@@ -6,73 +6,50 @@ public class PointSpawnerScript : MonoBehaviour
 {
     [SerializeField]
     private Transform topSpawn;
-
-    public bool gameHasStarted;
-
+    
     [SerializeField]
     private GameObject pointBallPrefab;
-    [SerializeField]
-    private float timeBeteweenPointSpawns;
-    private float timeSinceLastPoint;
+    public float timeBetweenPointBalls;
+    private float timeSincePointBall;
 
     [SerializeField]
     private GameObject multiplierCubePrefab;
-    [SerializeField]
-    private float timeBeteweenMultiplierSpawns;
-    private float timeSincelastMultiplier;
+    public float timeBetweenMultiplierCube;
+    private float timeSinceMultiplierCube;
 
+    // Update is called once per frame
     void Update()
     {
-        if(gameHasStarted)
-        {
-            timeSinceLastPoint += Time.deltaTime;
-            timeSincelastMultiplier += Time.deltaTime;
-        } 
+        timeSincePointBall += Time.deltaTime;
+        timeSinceMultiplierCube += Time.deltaTime;
 
-        if(timeSinceLastPoint >= timeBeteweenPointSpawns)
+        if(timeSinceMultiplierCube >= timeBetweenMultiplierCube)
         {
-            SpawnRandomPointBall();  
-            timeSinceLastPoint = 0;  
+            timeSinceMultiplierCube = 0;
+            SpawnMultiplierCube();
+            return;
         }
-
-        if(timeSincelastMultiplier >= timeBeteweenMultiplierSpawns)
+        
+        if(timeSincePointBall >= timeBetweenPointBalls)
         {
-            SpawnRandomMultiplierCube();  
-            timeSincelastMultiplier = 0;  
+            timeSincePointBall = 0;
+            SpawnPointBall();
+            return;
         }
     }
 
-    void SpawnRandomPointBall()
+    void SpawnMultiplierCube()
     {
-        float offSet = Random.Range(0, 15);
-        float xOffSet = topSpawn.position.x + offSet;
-
-        Vector3 ballSpawn= new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
-        
-        Instantiate(pointBallPrefab, ballSpawn, topSpawn.rotation);
-
-        Debug.Log("offSet for PointBall is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and ballSpawn = " + ballSpawn);
-    
-    }
-
-    void SpawnRandomMultiplierCube()
-    {
-        float offSet = Random.Range(0, 15);
-        float xOffSet = topSpawn.position.x + offSet;
-
-        Vector3 cubeSpawn = new Vector3(xOffSet, topSpawn.position.y, topSpawn.position.z);
-        
-        GameObject multiplierCube = Instantiate(multiplierCubePrefab, cubeSpawn, topSpawn.rotation);
-
-        MultiplierCubeScript multiplierCubeScript= multiplierCube.GetComponent<MultiplierCubeScript>();
-        multiplierCubeScript.SetStartAndEndPositions(cubeSpawn);
-
-        Debug.Log("offSet for MultiplierCube is equal to " + offSet +" and xOffSet is equal to " + xOffSet + " and spawn.x = " + cubeSpawn.x);
-    
+        float offSet = Random.Range(0f, 14f);
+        Vector3 finalSpawn = new Vector3(topSpawn.position.x+offSet, topSpawn.position.y, topSpawn.position.z);
+        GameObject cube = Instantiate(multiplierCubePrefab, finalSpawn, topSpawn.rotation);
+        Debug.Log("offSet = " + offSet + " and finalSpawn = " + finalSpawn);
     }
     
-    public void StartGame()
+    void SpawnPointBall()
     {
-        gameHasStarted = true;
-    }
+        float offSet = Random.Range(0f, 14f);
+        Vector3 finalSpawn = new Vector3(topSpawn.position.x+offSet, topSpawn.position.y, topSpawn.position.z);
+        Instantiate(pointBallPrefab, finalSpawn, topSpawn.rotation);
+    }   
 }

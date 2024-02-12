@@ -26,6 +26,7 @@ public class MultiplierCubeScript : MonoBehaviour
     void Start()
     {
         pMovement = GameObject.FindWithTag("Player").GetComponent<MovementScript>();
+        SetStartAndEndPositions();
     }
 
     // Update is called once per frame
@@ -58,10 +59,13 @@ public class MultiplierCubeScript : MonoBehaviour
         }
     }
 
-    public void SetStartAndEndPositions(Vector3 _startPosition)
+    public void SetStartAndEndPositions()
     {
-        startPosition = _startPosition;
-        endPosition = new Vector3 (startPosition.x, (transform.localScale.x/2f)-4.5f, startPosition.z);
+
+        startPosition = transform.position;
+        currentPosition = transform.position;
+        endPosition = new Vector3 (transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);
+        Debug.Log("offSet = " + offSet + "and startPosition = " + startPosition);
     }
 
 

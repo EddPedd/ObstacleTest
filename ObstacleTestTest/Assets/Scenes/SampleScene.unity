@@ -317,8 +317,7 @@ Transform:
   m_LocalPosition: {x: -7, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2122443812}
+  m_Children: []
   m_Father: {fileID: 457861699}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -355,7 +354,7 @@ MonoBehaviour:
   obstaclePrefab: {fileID: 7989454778654115689, guid: 5825bc710950d5d4680c920fc55b65c9, type: 3}
   oManager: {fileID: 1772441159}
   gameHasStarted: 0
-  timeBeteweenSpawns: 0.75
+  timeBeteweenSpawns: 1
 --- !u!4 &457861699
 Transform:
   m_ObjectHideFlags: 0
@@ -387,11 +386,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topSpawn: {fileID: 441420270}
-  gameHasStarted: 0
   pointBallPrefab: {fileID: 2627436013510594547, guid: 233194380efdaba4987a6955a448409a, type: 3}
-  timeBeteweenPointSpawns: 1
+  timeBetweenPointBalls: 0.5
   multiplierCubePrefab: {fileID: 7501973051178329889, guid: 81058d48d2d53ce42a3ec7849bbf3b88, type: 3}
-  timeBeteweenMultiplierSpawns: 1.71
+  timeBetweenMultiplierCube: 1.2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,7 +2054,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMenu: {fileID: 92954216}
   spawner: {fileID: 0}
-  pointSpawner: {fileID: 0}
 --- !u!1 &1798725505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,34 +2207,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2122443811
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2122443812}
-  m_Layer: 0
-  m_Name: TopSpawnpoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2122443812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2122443811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 441420270}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

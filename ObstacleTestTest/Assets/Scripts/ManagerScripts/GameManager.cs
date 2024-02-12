@@ -29,17 +29,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private SpawnerScript spawner;
-    [SerializeField]
-    private PointSpawnerScript pointSpawner;
 
     void Start ()
     {
         GameObject spawnerObject = GameObject.FindGameObjectWithTag("Spawner");
 
         spawner = spawnerObject.GetComponent<SpawnerScript>();
-        pointSpawner = spawnerObject.GetComponent<PointSpawnerScript>();
         
-        Debug.Log("spawner = " + spawner + "and pointSpawner = " + pointSpawner);
+        Debug.Log("spawner = " + spawner + "and pointSpawner = ");
 
     }
     
@@ -48,7 +45,6 @@ public class GameManager : MonoBehaviour
         startMenu.SetActive(false);
         
         spawner.StartGame();
-        pointSpawner.StartGame();
 
         PointManagerScript.Instance.StartGame();
 

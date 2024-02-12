@@ -22,8 +22,7 @@ public class PointBallScript : MonoBehaviour
     
     void Start()
     {
-        startPosition = transform.position;
-        endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);    //4.5 from half the scale of the floor but I cant be bothered to reference it so I just write it out
+        SetStartAndEndPositions();
     }
 
     void Update()
@@ -47,9 +46,16 @@ public class PointBallScript : MonoBehaviour
     {
         if(collider.CompareTag("Player"))
         {
-            PointManagerScript.Instance.UpdatePoints(100);
+            PointManagerScript.Instance.UpdatePoints(10);
             GameObject.Destroy(gameObject);
             Debug.Log("PointBall was picked up and sent message to PointManager to UpdatePoints");
         }
+    }
+
+    SetStartAndEndPositions()
+    {
+        startPosition = transform.position;
+        currentPosition = startPosition;
+        endPosition = new Vector3(transform.position.x, (transform.localScale.x/2f)-4.5f, transform.position.z);    //4.5 from half the scale of the floor but I cant be bothered to reference it so I just write it out
     }
 }
