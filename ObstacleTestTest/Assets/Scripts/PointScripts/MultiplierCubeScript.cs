@@ -55,7 +55,7 @@ public class MultiplierCubeScript : MonoBehaviour
         {
             pMovement.canSkip = true;
             GameObject.Destroy(gameObject);
-            Debug.Log("MultiplierCube was picked up and sent message to PointManager to UpdateMultiplier");
+            //Debug.Log("MultiplierCube was picked up and sent message to PointManager to UpdateMultiplier");
         }
     }
 

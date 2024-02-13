@@ -48,7 +48,7 @@ public class PointBallScript : MonoBehaviour
         {
             PointManagerScript.Instance.UpdatePoints(10);
             GameObject.Destroy(gameObject);
-            Debug.Log("PointBall was picked up and sent message to PointManager to UpdatePoints");
+            //Debug.Log("PointBall was picked up and sent message to PointManager to UpdatePoints");
         }
     }
 

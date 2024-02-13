@@ -44,7 +44,7 @@ public class MovementScript : MonoBehaviour
             CheckIfMoving();
         }
         
-if(Input.GetKeyDown(KeyCode.Space) && canSkip && (isMovingLeft || isMovingRight)) 
+        if(Input.GetKeyDown(KeyCode.Space) && canSkip && (isMovingLeft || isMovingRight)) 
         {
             StartSkipping();
         }
