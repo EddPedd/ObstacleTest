@@ -417,10 +417,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topSpawn: {fileID: 441420270}
-  pointBallPrefab: {fileID: 2627436013510594547, guid: 233194380efdaba4987a6955a448409a, type: 3}
-  timeBetweenPointBalls: 0.5
+  pointBallPrefab: {fileID: 0}
+  timeBetweenPointBalls: 2
   multiplierCubePrefab: {fileID: 7501973051178329889, guid: 81058d48d2d53ce42a3ec7849bbf3b88, type: 3}
-  timeBetweenMultiplierCube: 1.2
+  timeBetweenMultiplierCube: 1.25
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1584,6 @@ GameObject:
   - component: {fileID: 1190778866}
   - component: {fileID: 1190778869}
   - component: {fileID: 1190778868}
-  - component: {fileID: 1190778870}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1713,19 +1712,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1190778870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190778864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dd9f18e293b45f4dac106b5ba7f0473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointsPerParticle: 0
 --- !u!1 &1261735201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,6 +2014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d5d47842b4b3741ae209666be5900a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pointBall: {fileID: 2627436013510594547, guid: 356df170f5a973a4d8acf0ecbd018c6b, type: 3}
   _greenObstacleColor: {r: 0, g: 1, b: 0, a: 1}
   _blueObstacleColor: {r: 0, g: 0.04891403, b: 0.8113208, a: 1}
   _redObstacleColor: {r: 1, g: 0, b: 0, a: 1}

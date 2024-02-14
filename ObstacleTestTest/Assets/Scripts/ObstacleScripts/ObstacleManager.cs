@@ -6,6 +6,11 @@ public class ObstacleManager : MonoBehaviour{
     
     public static ObstacleManager Instance;     //single instance
 
+    //General variables
+    [SerializeField]
+    private GameObject _pointBall;
+    private static GameObject pointBall;
+    
     //Color classes
     public ObstacleColor GreenColorInstance {get; private set;}
     public ObstacleColor BlueColorInstance {get; private set;}
@@ -99,13 +104,17 @@ public class ObstacleManager : MonoBehaviour{
             return;
         }
 
+        //Set general variables
+        pointBall = _pointBall;
+
+
         greenObstacleColor = _greenObstacleColor;   //Set variables for color classes
         blueObstacleColor = _blueObstacleColor;
         redObstacleColor = _redObstacleColor;
         
-        GreenColorInstance = new ObstacleColor(0, greenObstacleColor);          //Create color classes
-        BlueColorInstance = new ObstacleColor(1, blueObstacleColor);            //1 for one bounce
-        RedColorInstance = new ObstacleColor(2, redObstacleColor);
+        GreenColorInstance = new ObstacleColor(0, greenObstacleColor, pointBall);          //Create color classes
+        BlueColorInstance = new ObstacleColor(1, blueObstacleColor, pointBall);            //1 for one bounce
+        RedColorInstance = new ObstacleColor(2, redObstacleColor, pointBall);
         
         //Set ObstacleColor array
         obstacleColors = new ObstacleColor [] {GreenColorInstance, BlueColorInstance, RedColorInstance};
@@ -148,11 +157,13 @@ public class ObstacleColor
 {
     public int bounces;
     public Color color;
+    public GameObject pointBall;
 
-    public ObstacleColor (int _bounces, Color _color)
+    public ObstacleColor (int _bounces, Color _color, GameObject pointBallPrefab)
     {
         bounces = _bounces;
         color = _color;
+        pointBall = pointBallPrefab;
     }
 }
 

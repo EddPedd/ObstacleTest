@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class PointBallsOnBounceScript : MonoBehaviour
     private int maxBallsAmount;
 
 
-    public void SpawnPointBalls()
+    private void SpawnPointBalls()
     {
         int amountOfBalls = Random.Range(minBallsAmount, maxBallsAmount);
 

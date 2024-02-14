@@ -16,8 +16,8 @@ public class ObstacleScript : MonoBehaviour
     [SerializeField]
     private AnimationCurve fallCurve;
 
-    //Variables
-    public ObstacleColor obstacleColor;         //ObstacleClasses from ObstacleManager
+    //ObstacleClasses from ObstacleManager
+    public ObstacleColor obstacleColor;         
     public ObstacleSize obstacleSize;
     public ObstacleShape obstacleShape; 
                                 
@@ -40,6 +40,13 @@ public class ObstacleScript : MonoBehaviour
     [SerializeField]
     public float scaleMultiplier;
 
+    //Spawning Pointballs variables
+    private GameObject pointBallPrefab;
+    [SerializeField]
+    private int minBallsAmount = 3;
+    [SerializeField]
+    private int maxBallsAmount = 15;
+
     void Start()
     {
         //Set references
@@ -60,6 +67,7 @@ public class ObstacleScript : MonoBehaviour
             //Debug.Log("obstcleColor.bounces = " + obstacleColor.bounces);
             spriteRenderer.color = obstacleColor.color;
             bounces = obstacleColor.bounces;
+            pointBallPrefab = obstacleColor.pointBall;
         }else{ Debug.LogError("obstacle is without obstacleColor!"); }
 
         if(obstacleSize != null)    //Set size
@@ -182,19 +190,20 @@ public class ObstacleScript : MonoBehaviour
                 bounces -= 1;
                 hasBounced = true;
 
-                //Reset bounce
+                //Reset bounce time
                 timeSinceBounce = 0;
                 return;
             }
             else    //What to do if no more bounce
             {
                 //Pop
+                SpawnPointBalls();
+                Debug.Log ("tried to spawn Pointballs");
                 GameObject.Destroy(gameObject);
                 return;
             }
         }
     }
-
     
     void OnTriggerEnter2D (Collider2D collider)
     {
@@ -204,5 +213,23 @@ public class ObstacleScript : MonoBehaviour
             HealthManager.Instance.ChangeHealth(-1);
             Debug.Log(gameObject.name + " collided with Player");
         }
+    }
+    
+    private void SpawnPointBalls()
+    {
+        int amountOfBalls = Random.Range(minBallsAmount, maxBallsAmount);
+
+        for (int i = 0; i< 10; i++)
+        {
+            GameObject pointBall = Instantiate(pointBallPrefab, transform.position, transform.rotation);
+
+            float endPositionOffset = ((float)i/10f);
+
+            Pointball2Script ballScript = pointBall.GetComponent<Pointball2Script>();
+            ballScript.SetEndPosition(transform.position, endPositionOffset);
+
+            Debug.Log(gameObject.name + " spawned " + i + "pointballs out of " + amountOfBalls);
+        }
+        Debug.Log(amountOfBalls);
     }
 }

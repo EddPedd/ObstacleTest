@@ -24,6 +24,12 @@ public class Pointball2Script : MonoBehaviour
 
     [SerializeField]
     private float lifeTime;
+    [SerializeField]
+    private int pointsPerBall;
+
+    void Start()
+    {
+    }
 
     void Update()
     {
@@ -43,12 +49,16 @@ public class Pointball2Script : MonoBehaviour
             currentPosition.y = Mathf.Lerp( maxHeight, endPosition.y, fallMultiplier);
         }
 
-        if(timeSinceSpawn <= 1)
+        if(timeSinceSpawn <= fallTime)
         {
             float xMultiplier = xCurve.Evaluate(bouncePercent);
             currentPosition.x = Mathf.Lerp(startPosition.x, endPosition.x, xMultiplier);
 
             transform.position = currentPosition;
+        }
+        else if(timeSinceSpawn > lifeTime)
+        {
+            GameObject.Destroy(gameObject);
         }
     }
 
@@ -62,10 +72,15 @@ public class Pointball2Script : MonoBehaviour
         float finalYPosition = (-4.5f + transform.localScale.y/2);     //-4,5 for top of floor
 
         endPosition = new   Vector3(finalXPosition, finalYPosition, _startPosition.z);  
+        Debug.Log(startPosition + ", " + endPosition);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        //Add behaviour for trigger with player
+        if(collider.CompareTag("Player"))
+        {
+            PointManagerScript.Instance.UpdatePoints(pointsPerBall);
+            GameObject.Destroy(gameObject);
+        }
     }
 }
