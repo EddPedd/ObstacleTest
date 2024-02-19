@@ -6,8 +6,15 @@ public class MovementScript : MonoBehaviour
 {
     //References
     public Rigidbody2D rb;
+    private Renderer rend;
 
     //variables
+    [SerializeField]
+    private Color skipColor;
+    [SerializeField]
+    private Color notSkipColor;
+
+    
     private bool isMovingLeft = false;
     private bool isMovingRight = false;
     [SerializeField]
@@ -24,6 +31,11 @@ public class MovementScript : MonoBehaviour
     [SerializeField]
     private float skipTime;
 
+    void Start()
+    {
+        rend = GetComponent<Renderer>();
+    }
+    
     void Update()
     {
         if(Input.GetKeyDown("a")) {
@@ -69,6 +81,10 @@ public class MovementScript : MonoBehaviour
             else
             {
                 isSkipping = false;
+                if(!canSkip)
+                {
+                    rend.material.SetColor("_EmissionColor", notSkipColor); 
+                }
                 CheckIfMoving();
             }
             
@@ -103,6 +119,12 @@ public class MovementScript : MonoBehaviour
         {
             StandStill();
         }
+    }
+
+    public void PickUpSkip()
+    {
+        canSkip = true;
+        rend.material.SetColor("_EmissionColor", skipColor);
     }
 
     private void StartSkipping()

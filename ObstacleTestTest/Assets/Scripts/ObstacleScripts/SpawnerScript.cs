@@ -57,8 +57,7 @@ public class SpawnerScript : MonoBehaviour
         float randomOffSet = Random.Range(0, 101);
 
         SpawnObstacle(spawnColor, spawnSize, spawnShape, spawnPoint, randomOffSet);
-        //Debug.Log("randomSize = " + randomSize);      Outdated error
-           
+        //Debug.Log("randomSize = " + randomSize);      Outdated error    
     }
 
     private void SpawnObstacle(ObstacleColor spawnColor, ObstacleSize spawnSize, ObstacleShape spawnShape, Transform spawnPoint, float offSet)

@@ -1656,6 +1656,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1190778867}
+  skipColor: {r: 1, g: 0.89055866, b: 0, a: 1}
+  notSkipColor: {r: 1, g: 1, b: 1, a: 1}
   movementSpeed: 7.5
   canSkip: 0
   skipSpeed: 27
@@ -2020,7 +2022,9 @@ MonoBehaviour:
   _redObstacleColor: {r: 1, g: 0, b: 0, a: 1}
   _circleShapeSprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   _triangleShapeSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  _squareShapeSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   _triangleBounceDistance: 10
+  _squareBounceDistance: 0
   _smallScale: 1
   _mediumScale: 3
   _largeScale: 5

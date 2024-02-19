@@ -32,6 +32,7 @@ public class ObstacleManager : MonoBehaviour{
     //Shape Classes
     public ObstacleShape CircleShapeInstance {get; private set;}
     public Triangle TriangleShapeInstance {get; private set;}
+    public Square SquareShapeInstance {get; private set;}
     
     public ObstacleShape [] obstacleShapes {get; private set;}  //ObstacleShape Array
 
@@ -41,12 +42,19 @@ public class ObstacleManager : MonoBehaviour{
     private static Sprite circleShapeSprite;
     [SerializeField]
     private Sprite _triangleShapeSprite;
-    private static Sprite triangleShapeSprite; 
+    private static Sprite triangleShapeSprite;
+    [SerializeField]
+    private Sprite _squareShapeSprite;
+    private static Sprite squareShapeSprite;  
 
     [SerializeField]
     private float _triangleBounceDistance;
     private static float triangleBounceDistance;
     private static float triangleScaleMultiplier = 0.6f;
+
+    [SerializeField]
+    private float _squareBounceDistance;
+    private static float squareBounceDistance;
 
 
     //Size classes
@@ -122,13 +130,16 @@ public class ObstacleManager : MonoBehaviour{
         //Set variabes for Shapes
         circleShapeSprite = _circleShapeSprite;
         triangleShapeSprite = _triangleShapeSprite;
+        squareShapeSprite = _squareShapeSprite;
 
         triangleBounceDistance = _triangleBounceDistance;
+        squareBounceDistance = _squareBounceDistance;
 
         CircleShapeInstance = new ObstacleShape (circleShapeSprite);
         TriangleShapeInstance = new Triangle (triangleShapeSprite, triangleBounceDistance, triangleScaleMultiplier);
+        SquareShapeInstance = new Square (squareShapeSprite, squareBounceDistance);
 
-        obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance};     //array for shapes
+        obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance, SquareShapeInstance};     //array for shapes
 
         //Set variables for Size classes
         smallScale = _smallScale;               //Scales    
@@ -241,6 +252,24 @@ public class Triangle : ObstacleShape
     }
 }
 
+public class Square : ObstacleShape
+{
+    public override void AddCollisionCollider(GameObject targetObject)
+    {
+
+    }
+
+    public override void CalculateBounce(float side, ObstacleScript obstacle)
+    {
+
+    }
+
+    public Square (Sprite _sprite, float _bounceDistance) : base(_sprite)
+    {
+
+    }
+}
+
 public class ObstacleSize
 {
     public float scale;
@@ -255,7 +284,8 @@ public class ObstacleSize
      //   Debug.Log("palyed " + scale + " sound on Bounce");
    // }
     
-    public ObstacleSize (float _scale, float _bounceTimeModifier, float _bounceHeight, int _sprietLayer){
+    public ObstacleSize (float _scale, float _bounceTimeModifier, float _bounceHeight, int _sprietLayer)
+    {
         scale = _scale;
         bounceTimeModifier = _bounceTimeModifier;
         bounceHeight = _bounceHeight;
