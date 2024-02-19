@@ -30,12 +30,12 @@ public class PointSpawnerScript : MonoBehaviour
             return;
         }
         
-        if(timeSincePointBall >= timeBetweenPointBalls)
-        {
-            timeSincePointBall = 0;
-            SpawnPointBall();
-            return;
-        }
+        //if(timeSincePointBall >= timeBetweenPointBalls)
+        //{
+       //     timeSincePointBall = 0;
+       //     SpawnPointBall();
+      //      return;
+      //  }
     }
 
     void SpawnMultiplierCube()
@@ -46,10 +46,9 @@ public class PointSpawnerScript : MonoBehaviour
         Debug.Log("offSet = " + offSet + " and finalSpawn = " + finalSpawn);
     }
     
-    void SpawnPointBall()
-    {
-        float offSet = Random.Range(0f, 14f);
-        Vector3 finalSpawn = new Vector3(topSpawn.position.x+offSet, topSpawn.position.y, topSpawn.position.z);
-        Instantiate(pointBallPrefab, finalSpawn, topSpawn.rotation);
-    }   
+    //void SpawnPointBall()
+   ////     float offSet = Random.Range(0f, 14f);
+   //     Vector3 finalSpawn = new Vector3(topSpawn.position.x+offSet, topSpawn.position.y, topSpawn.position.z);
+   //     Instantiate(pointBallPrefab, finalSpawn, topSpawn.rotation);
+  //  }   
 }
