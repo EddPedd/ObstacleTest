@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -137,7 +137,7 @@ public class ObstacleManager : MonoBehaviour{
 
         CircleShapeInstance = new ObstacleShape (circleShapeSprite);
         TriangleShapeInstance = new Triangle (triangleShapeSprite, triangleBounceDistance, triangleScaleMultiplier);
-        SquareShapeInstance = new Square (squareShapeSprite, squareBounceDistance);
+        SquareShapeInstance = new Square (squareShapeSprite);
 
         obstacleShapes = new ObstacleShape [] {CircleShapeInstance, TriangleShapeInstance, SquareShapeInstance};     //array for shapes
 
@@ -200,7 +200,12 @@ public class ObstacleShape
         {
             obstacle.directionMultiplier = 1f;
         }
+        obstacle.maxHeight = obstacle. obstacleSize.bounceHeight;
+        obstacle.finalPosition.x += obstacle.directionMultiplier*Mathf.Abs(obstacle.xDifference)/1.5f;
     }
+
+    public virtual void OnDestroy()
+    {}
 
     public ObstacleShape (Sprite _sprite)
     {
@@ -241,7 +246,8 @@ public class Triangle : ObstacleShape
             obstacle.directionMultiplier = 1f;
         }
 
-        obstacle.xDifference = bounceDistance;
+        obstacle.maxHeight = obstacle. obstacleSize.bounceHeight;
+        obstacle.finalPosition.x += obstacle.directionMultiplier*Mathf.Abs(bounceDistance)/1.5f;
     }
 
     public Triangle (Sprite _sprite, float _bounceDistance, float _scaleMultiplier) : base(_sprite)
@@ -256,17 +262,33 @@ public class Square : ObstacleShape
 {
     public override void AddCollisionCollider(GameObject targetObject)
     {
+        BoxCollider2D boxCollider = targetObject.AddComponent<BoxCollider2D>();
 
+        boxCollider.isTrigger = true;
+        SpawnerScript.Instance.activeCube = true;
+        Debug.Log("Added Circle collision collider");
     }
 
     public override void CalculateBounce(float side, ObstacleScript obstacle)
     {
-
+        obstacle.finalPosition = obstacle.transform.position;
+        obstacle.maxHeight = obstacle.transform.position.y;
+        
+        if(!obstacle.hasBounced)
+        {
+            BoxCollider2D collider = obstacle.GetComponent<BoxCollider2D>();
+            collider.isTrigger = false;
+        }
     }
 
-    public Square (Sprite _sprite, float _bounceDistance) : base(_sprite)
+    public override void OnDestroy()
     {
+        SpawnerScript.Instance.activeCube = false;
+    }
 
+    public Square (Sprite _sprite) : base(_sprite)
+    {
+        shapeSprite = _sprite;
     }
 }
 

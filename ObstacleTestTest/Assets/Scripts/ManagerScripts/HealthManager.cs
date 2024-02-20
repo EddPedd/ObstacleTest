@@ -29,8 +29,6 @@ public class HealthManager : MonoBehaviour
         }
     }
 
-    // Your class implementation here
-
     private void Awake()
     {
         // Ensure there's only one instance

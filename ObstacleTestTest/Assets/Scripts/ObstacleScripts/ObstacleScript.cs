@@ -25,16 +25,19 @@ public class ObstacleScript : MonoBehaviour
     [SerializeField]
     public Vector3 startPosition {get; private set;} //Used to calculate bounce direction for circles
     private Vector3 startBouncePosition;
-    private Vector3 finalPosition;
+    [SerializeField]
+    public Vector3 finalPosition;
     private Vector3 currentPosition;
     private float timeSinceBounce;
     private float bouncePercent;
     private int bounces;
+    [SerializeField]
     public float xDifference;
-    private float maxHeight = 3;
+    public float maxHeight = 3;
     private float totalBounceTime;
     private bool spawnedFromSide = true;
-    private bool hasBounced;
+    [SerializeField]
+    public bool hasBounced;
     [SerializeField]
     public float directionMultiplier;
     [SerializeField]
@@ -184,8 +187,7 @@ public class ObstacleScript : MonoBehaviour
                 
                 //Decide new positions for bounce-calculations
                 startBouncePosition = transform.position;
-                maxHeight = obstacleSize.bounceHeight;
-                finalPosition.x += directionMultiplier*Mathf.Abs(xDifference)/1.5f;
+
 
                 bounces -= 1;
                 hasBounced = true;
@@ -196,11 +198,7 @@ public class ObstacleScript : MonoBehaviour
             }
             else    //What to do if no more bounce
             {
-                //Pop
-                SpawnPointBalls();
-                Debug.Log ("tried to spawn Pointballs");
-                GameObject.Destroy(gameObject);
-                return;
+                Pop();
             }
         }
     }
@@ -213,6 +211,17 @@ public class ObstacleScript : MonoBehaviour
             HealthManager.Instance.ChangeHealth(-1);
             Debug.Log(gameObject.name + " collided with Player");
         }
+    }
+    
+    private void Pop()
+    {
+        SpawnPointBalls();
+        Debug.Log ("tried to spawn Pointballs");
+
+        obstacleShape.OnDestroy();
+
+        GameObject.Destroy(gameObject);
+        return;
     }
     
     private void SpawnPointBalls()
@@ -232,4 +241,5 @@ public class ObstacleScript : MonoBehaviour
         }
         Debug.Log(amountOfBalls);
     }
+
 }
